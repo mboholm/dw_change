@@ -1,0 +1,56 @@
+# förortsgäng
+förortsgäng -> N1 -> \bförortsgäng(|et|en|s|ets|ens)\b -> förortsgäng
+förortsgäng -> N1C -> \b(förortsgäng)s?([^(\s|et|en|s|ets|ens)].*?)\b -> förortsgängX
+
+# återvandr
+återvandr -> N1 -> \båtervandring(|en|ar|s|ens|ars|arna|arnas)\b -> återvandring
+återvandr -> N2 -> \båtervandrar(e|en|es|ens|na|nas)\b -> återvandrare
+återvandr -> N3 -> \båtervandrande(|t|ts|n|ns|rnas) -> återvandrande
+
+återvandr -> N1C -> \b(återvandring)s?([^(\s|en|ar|s|ens|ars|arna|arnas)].*?)\b -> återvandringsX
+återvandr -> N2C -> \b(återvandrar)([^(\s|e)].*?)\b -> återvandrarX 
+
+återvandr -> V1 -> \båtervandra(|r|d|de|t)\b -> återvandra # incl. particip
+
+# berika
+berika -> N1 -> \bberikar(e|en|na|es|ens|nas)\b -> berikare
+#berika -> N1C -> \bberikar[^(\s|en|na|s|ens|nas)].*?\b -> berikarX
+berika -> N1C -> \b(berikar)([^(\s|en|na|s|ens|nas)].*?)\b -> berikarX
+berika -> V1 -> \bberik(a|ar|ad|ade|at|ande)\b -> berika # incl. particip
+
+# kulturberika
+berika -> N1 -> \bkulturberikar(e|en|na|es|ens|nas)\b -> kulturberikare
+#berika -> N1C -> \bkulturberikar[^(\s|en|na|es|ens|nas)].*?\b -> kulturberikarX # e (almost?) always dropped
+berika -> N1C -> \b(kulturberikar)([^(\s|en|na|es|ens|nas)].*?)\b -> kulturberikarX
+berika -> V1 -> \bkulturberik(a|ar|ad|ade|at|ande)\b -> kulturberika # incl. particip
+
+# ordning_och_reda_i_flyktingpolitiken
+ordning och reda i flyktingpolitiken -> P1 -> ordning och reda i flyktingpolitiken -> ordning_och_reda_i_flyktingpolitiken
+
+# globalist
+globalist -> N1 -> \bglobalist(|en|er|erna|s|ens|ers|ernas)\b -> globalist
+globalist -> N1C -> \b(globalist)([^(\s|en|er|erna|s|ens|ers|ernas|isk)].*?)\b -> globalistX
+globalist -> A1 -> \bgloablistisk(|a|kt)\b -> globalistisk
+
+# hjälpa_på_plats
+hjälpa.*? på plats -> V1 -> \bhjälp(a|er|te|t|ande)\b på plats\b -> hjälpa_på_plats # ?hjälpande på plats; hjälpa på platsen?
+hjälpa.* på plats -> V2 -> \bhjälp(a|er|te|t|ande)\b .*? på plats\b -> hjälpa_X_på_plats # !?
+
+# självständig_utrikespolitik
+självständiga? utrikespolitik -> P1 -> \bsjälvständiga? utrikespolitik(|en|s|ens|er|ers|ernas)\b -> självständig_utrikespolitik
+
+
+# re.match(r"\bförortsgäng(|et|en|s|ets|ens)", "förortsgängman")
+# <re.Match object; span=(0, 11), match='förortsgäng'>
+
+# re.match(r"\bförortsgäng(|et|en|s|ets|ens)\b", "förortsgängman")
+# 
+
+# re.match(r"\bförortsgäng(|et|en|s|ets|ens)\b", "förortsgänget")
+# <re.Match object; span=(0, 13), match='förortsgänget'>
+
+# re.match(r"\bförortsgäng[^(|et|en|s|ets|ens)].*", "förortsgängman")
+# <re.Match object; span=(0, 14), match='förortsgängman'>
+
+# re.match(r"\bförortsgäng[^(|et|en|s|ets|ens)].*", "förortsgänget")
+# 
