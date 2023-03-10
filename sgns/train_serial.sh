@@ -7,13 +7,21 @@ python -c "import gensim; print('GenSim version:', gensim.__version__)"
 # Note: scripts and code were originally developed for gensim 3.8
 
 #glb_dir="/home/max/Corpora/toy_diamat-sample/global"
-crp_dir="/home/max/Corpora/toy_pol-tb-sample/files" # previously named "yearly"
-voc_dir="/home/max/Corpora/toy_pol-tb-sample/vocab"
 
-mod_dir="/home/max/Results/toy_pol-tb-output/models"
-anl_dir="/home/max/Results/toy_pol-tb-output/cosine_change" # angular change
-sim_dir="/home/max/Results/toy_pol-tb-output/cosine_sim"
-ctr_dir="/home/max/tmp/toy_pol-tb"
+root_corpus="fb_pol" # fb-pol = Flashback-politik
+time_design="yearly" # vs. time_bin
+pp_version="radical3" # PreProcessed Version
+
+rootdir="/srv/data/gusbohom/dw_root"
+
+crp_dir="${rootdir}/corpora/${root_corpus}/${time_design}/${pp_version}/files" # prepocessed as "radical 3"
+voc_dir="${rootdir}/corpora/${root_corpus}/${time_design}/${pp_version}/vocab"
+
+mod_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/models"
+anl_dir="${rootdir}/experiment/${root_corpus}l-${time_design}-${pp_version}/cosine_change" # angular change
+sim_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/cosine_sim"
+
+ctr_dir="${rootdir}/tmp/${root_corpus}-${time_design}-${pp_version}"
 
 min_count=5
 epch=10  # Noble et al. used 10; a much higher numer might be required to get closer for further progress
