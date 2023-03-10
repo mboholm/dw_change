@@ -21,7 +21,7 @@ mod_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/model
 anl_dir="${rootdir}/experiment/${root_corpus}l-${time_design}-${pp_version}/cosine_change" # angular change
 sim_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/cosine_sim"
 
-ctr_dir="${rootdir}/tmp/${root_corpus}-${time_design}-${pp_version}"
+ctr_dir="${rootdir}/tmp/"
 
 min_count=5
 epch=10  # Noble et al. used 10; a much higher numer might be required to get closer for further progress
