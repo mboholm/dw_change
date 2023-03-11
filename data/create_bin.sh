@@ -12,7 +12,7 @@ Help()
    echo "arg2     Directory: bin    (output)"
    echo "arg3     First year"
    echo "arg4     Last year"
-   echo "arg5     Step"
+   echo "arg5     Add"
    echo
 }
 
@@ -28,13 +28,13 @@ echo "Directory, temporal: $1";
 echo "Directory, bin: $2";
 echo "First year: $3";
 echo "Last year: $4";
-echo "Step: $5";
+echo "Add: $5";
 
 first_year=$3 #2003
 last_year=$4 #2022
-step=$5 #3
+add=$5 #3
 
-for ((bin_start=$first_year, bin_end=$first_year+$step; bin_end<=$last_year; bin_start=$bin_start+$step+1, bin_end=$bin_end+$step+1)); do
+for ((bin_start=$first_year, bin_end=$first_year+$add; bin_end<=$last_year; bin_start=$bin_start+$add+1, bin_end=$bin_end+$add+1)); do
 
 	echo "Time Bin: from ${bin_start} to ${bin_end}"
 	bin_file=$2"${bin_start}.txt"
