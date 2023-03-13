@@ -8,29 +8,31 @@ python -c "import gensim; print('GenSim version:', gensim.__version__)"
 
 #glb_dir="/home/max/Corpora/toy_diamat-sample/global"
 
-root_corpus="fb_pol" # fb-pol = Flashback-politik
-time_design="yearly" # vs. time_bin
+root_corpus="fb_pol" # fb_pol = Flashback-politik
+time_design="yearly" # yearly vs. time_bin
 pp_version="radical3" # PreProcessed Version
 
-rootdir="/srv/data/gusbohom/dw_root"
+rootdir="/srv/data/gusbohom/root"
 
 crp_dir="${rootdir}/corpora/${root_corpus}/${time_design}/${pp_version}/files" # prepocessed as "radical 3"
 voc_dir="${rootdir}/corpora/${root_corpus}/${time_design}/${pp_version}/vocab"
 
 mod_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/models"
-anl_dir="${rootdir}/experiment/${root_corpus}l-${time_design}-${pp_version}/cosine_change" # angular change
+anl_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/cosine_change" # angular change
 sim_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/cosine_sim"
 
-ctr_dir="${rootdir}/tmp/"
+ctr_dir="${rootdir}/tmp"
 
-min_count=5
+min_count=10
 epch=10  # Noble et al. used 10; a much higher numer might be required to get closer for further progress
 N=10 # no. of controls; Noble et al. used 10
-threads=4 # default = 4 (in Python code); Noble et al. used 12
+threads=12 # default = 4 (in Python code); Noble et al. used 12
 
-first_year=2003
+##  DOUBLE CHECK! ##
+first_year=2000
 last_year=2022
-step=4
+step=1
+####################
 
 #0. Train global model
 #python sgns_mb.py "${voc_dir}/global.txt" "${glb_dir}/global.txt" "${mod_dir}/global" --epochs $epch --min-count $min_count --no-save-checkpoints
@@ -40,7 +42,7 @@ python sgns_mb.py "${voc_dir}/${first_year}.txt" "${crp_dir}/${first_year}.txt" 
 
 #2. Train and compare
 #for ((year=$first_year+1;i<$last_year;year++)); do
-for ((this_year=$first_year+$step, prev_year=$first_year; this_year<=$last_year; this_year=$this_year+$step, prev_year=$this_year+$step)); do
+for ((this_year=$first_year+$step, prev_year=$first_year; this_year<=$last_year; this_year=$this_year+$step, prev_year=$prev_year+$step)); do
 
 	python sgns_mb.py "${voc_dir}/${this_year}.txt" "${crp_dir}/${this_year}.txt" "${mod_dir}/${this_year}" --epochs $epch --n-threads $threads --min-count $min_count --init-model "${mod_dir}/${prev_year}.w2v" --no-save-checkpoints
 
@@ -48,7 +50,7 @@ for ((this_year=$first_year+$step, prev_year=$first_year; this_year<=$last_year;
 	python3 semantic_change.py "${mod_dir}/${prev_year}.w2v" "${mod_dir}/${this_year}.w2v" "${sim_dir}/${prev_year}_${this_year}_genuine.txt" --similarity
 
 	for ((i=1;i<=N;i++)); do
-		#echo "PREPARATION"
+		echo "PREPARATION ${i}"
 		combined_file="${ctr_dir}/data/${prev_year}_${this_year}_combined.txt"
 		#echo "${combined_file}"
 		cat "${crp_dir}/${prev_year}.txt" > "${combined_file}" 
