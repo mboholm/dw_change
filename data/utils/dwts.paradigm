@@ -16,13 +16,13 @@ förortsgäng -> N1C -> \b(förortsgäng)s?([^(\s|et|en|s|ets|ens)].*?)\b -> fö
 berika -> N1 -> \bberikar(e|en|na|es|ens|nas)\b -> berikare
 #berika -> N1C -> \bberikar[^(\s|en|na|s|ens|nas)].*?\b -> berikarX
 berika -> N1C -> \b(berikar)([^(\s|en|na|s|ens|nas)].*?)\b -> berikarX
-berika -> V1 -> \bberik(a|ar|ad|ade|at|ande)\b -> berika # incl. particip
+berika -> V1 -> \bberik(a|ar|ad|ade|at|ande|s|ts)\b -> berika # incl. particip
 
 # kulturberika
 berika -> N1 -> \bkulturberikar(e|en|na|es|ens|nas)\b -> kulturberikare
 #berika -> N1C -> \bkulturberikar[^(\s|en|na|es|ens|nas)].*?\b -> kulturberikarX # e (almost?) always dropped
 berika -> N1C -> \b(kulturberikar)([^(\s|en|na|es|ens|nas)].*?)\b -> kulturberikarX
-berika -> V1 -> \bkulturberik(a|ar|ad|ade|at|ande)\b -> kulturberika # incl. particip
+berika -> V1 -> \bkulturberik(a|ar|ad|ade|at|ande|s|ts)\b -> kulturberika # incl. particip
 
 # ordning_och_reda_i_flyktingpolitiken
 ordning och reda i flyktingpolitiken -> P1 -> ordning och reda i flyktingpolitiken -> ordning_och_reda_i_flyktingpolitiken
