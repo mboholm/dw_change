@@ -35,8 +35,8 @@ def main(corpus, measures, file_path):
 	    df[f"frq{year}"] = pd.Series(freqs)
 
 	# Add Difference in Frequencies
-	for ti in years[:-1]:
-	    tj = ti + 1
+	for i, ti in enumerate(years[:-1]):
+	    tj = years[i + 1]
 	    df[f"diff_{ti}:{tj}"] = df[f"frq{ti}"] - df[f"frq{tj}"]
 
 	# Add Genuine Change
@@ -49,8 +49,8 @@ def main(corpus, measures, file_path):
 	# Add Mean and Std. of Change Controls
 	start, end = c_span
 
-	for ti in years[:-1]:
-	    tj = ti + 1
+	for i, ti in enumerate(years[:-1]):
+	    tj = years[i + 1]
 	    control = []
 	    for i in range(start, end + 1):
 	        s = pd.Series(load_metric(measures / f"cosine_change/{ti}_{tj}_control{i}.txt"))
@@ -61,8 +61,8 @@ def main(corpus, measures, file_path):
 	    df[f"stdc_{ti}:{tj}"] = control.std(axis=1, ddof=1)	
 
 	# Add Rectified Change
-	for ti in years[:-1]:
-	    tj = ti + 1
+	for i, ti in enumerate(years[:-1]):
+	    tj = years[i + 1]
 	    df[f"rch_{ti}:{tj}"] = (df[f"gch_{ti}:{tj}"] - df[f"mccc_{ti}:{tj}"]) / (df[f"stdc_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
 	# Add Genuine Similarity
@@ -73,8 +73,8 @@ def main(corpus, measures, file_path):
 	        df[c_name] = pd.Series(load_metric(measures / f"cosine_sim/{file}"))
 
 	# Add Mean and Std. of Similarity Controls
-	for ti in years[:-1]:
-	    tj = ti + 1
+	for i, ti in enumerate(years[:-1]):
+	    tj = years[i + 1]
 	    control = []
 	    for i in range(start, end + 1):
 	        s = pd.Series(load_metric(measures / f"cosine_sim/{ti}_{tj}_control{i}.txt"))
@@ -85,8 +85,8 @@ def main(corpus, measures, file_path):
 	    df[f"stdsim_{ti}:{tj}"] = control.std(axis=1, ddof=1)
 
 	# Add Rectified Similarity
-	for ti in years[:-1]:
-	    tj = ti + 1
+	for i, ti in enumerate(years[:-1]):
+	    tj = years[i + 1]
 	    df[f"rsim_{ti}:{tj}"] = (df[f"gsim_{ti}:{tj}"] - df[f"mcsim_{ti}:{tj}"]) / (df[f"stdsim_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
 	# Save
