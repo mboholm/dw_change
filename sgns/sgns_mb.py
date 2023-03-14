@@ -146,8 +146,9 @@ def cli(token_counts_file, corpus_file, model_prefix, init_model, min_count,
         # mb new ideas for gensim 4.0 from: 
         # https://stackoverflow.com/questions/69412142/process-to-intersect-with-pre-trained-word-vectors-with-gensim-4-0-0
         # https://datascience.stackexchange.com/questions/97568/fine-tuning-pre-trained-word2vec-model-with-gensim-4-0
+        # https://gist.github.com/kaanakdeniz/6ff7d418333f5aa2fea671b17f75154c
         model.wv.vectors_lockf = np.ones(len(model.wv))   # mb 
-        model.wv.intersect_word2vec_format(init_model, binary=False, lockf=1.0)   # mb (
+        model.wv.intersect_word2vec_format(init_model, binary=False, lockf=1.0)   # mb https://radimrehurek.com/gensim/models/keyedvectors.html#gensim.models.keyedvectors.KeyedVectors
 
     callbacks = [AngularChange(stop_threshold, epochs, model_prefix)]
     if save_checkpoints:
