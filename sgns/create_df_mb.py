@@ -21,126 +21,142 @@ def checker():
             if dw in w:
                 hits.add(w)
     
-    print(", ".join(list(hits)))
+    print("IDF", ", ".join(list(hits)))
 
 def main(corpus, measures, file_path, check):
 
-	t0 = time.perf_counter()
-	print(f"Compiles dataframe from data in")
-	print(corpus)
-	print(measures)
-	print()
-	#print("...", end="\r")
+    global df
 
-	# Setup
-	years = [int(file.strip(".txt")) for file in os.listdir(corpus/"files")]
-	years.sort()
-	first_year = min(years)
-	last_year  = max(years)
+    t0 = time.perf_counter()
+    print(f"Compiles dataframe from data in")
+    print(corpus)
+    print(measures)
+    print()
+    #print("...", end="\r")
 
-	c_numbers = set(int(n) for n in ["".join([ch for ch in file.strip(".txt").split("_")[-1] if ch.isdigit()]) for file in os.listdir(measures / "cosine_change") if "control" in file]) # to find the range of control measures
-	c_span = min(c_numbers), max(c_numbers)
+    # Setup
+    years = [int(file.strip(".txt")) for file in os.listdir(corpus/"files")]
+    years.sort()
+    first_year = min(years)
+    last_year  = max(years)
 
-	df = pd.DataFrame()
+    c_numbers = set(int(n) for n in ["".join([ch for ch in file.strip(".txt").split("_")[-1] if ch.isdigit()]) for file in os.listdir(measures / "cosine_change") if "control" in file]) # to find the range of control measures
+    c_span = min(c_numbers), max(c_numbers)
 
-	# Add Word Frequencies
-	print("Adding word frequencies.")
-	for year in years:
-	    freqs = {w: c for w, c in load_metric(corpus / f"vocab/{year}.txt").items() if c >= 5}
-	    df[f"frq{year}"] = pd.Series(freqs)
+    df = pd.DataFrame()
 
-    if check:
-        checker()
+    # Add Word Frequencies
+    print("Adding word frequencies.")
+    for year in years:
+        if check:
+            loaded = load_metric(corpus / f"vocab/{year}.txt")
+            evidence = set()
+            for w in loaded.keys():
+                for t in ["berika", "gloablist", "förortsgäng"]:
+                    if t in w:
+                        evidence.add(w)
+            print("EVD:", ", ".join(list(evidence)))
 
-	# Add Difference in Frequencies
-	print("Adding difference in frequencies.")
-	for i, ti in enumerate(years[:-1]):
-	    tj = years[i + 1]
-	    df[f"diff_{ti}:{tj}"] = df[f"frq{ti}"] - df[f"frq{tj}"]
+        freqs = {w: c for w, c in load_metric(corpus / f"vocab/{year}.txt").items()}
+        df[f"frq{year}"] = pd.Series(freqs)
+        # Here we want to expand the dataframe with new words. 
+        # With `df[f"frq{year}"] = pd.Series(freqs)` this does not happen.
 
-    if check:
-        checker()
-
-	# Add Genuine Change
-	print("Adding genuine change.")
-	for file in os.listdir(measures / "cosine_change"):
-	    if file.strip(".txt").endswith("genuine"):
-	        c_name = file.strip("_genuine.txt").replace("_", ":")
-	        c_name = "gch_" + c_name # Genuine Cosine Change
-	        df[c_name] = pd.Series(load_metric(measures / f"cosine_change/{file}"))
-
-    if check:
-        checker()	        
-
-	# Add Mean and Std. of Change Controls
-	print("Adding Mean, Std. of Change Controls")
-	start, end = c_span
-
-	for i, ti in enumerate(years[:-1]):
-	    tj = years[i + 1]
-	    control = []
-	    for i in range(start, end + 1):
-	        s = pd.Series(load_metric(measures / f"cosine_change/{ti}_{tj}_control{i}.txt"))
-	        control.append(s)
-
-	    control = pd.concat(control, axis=1)
-	    df[f"mccc_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Change Controle
-	    df[f"stdc_{ti}:{tj}"] = control.std(axis=1, ddof=1)	
+        if check:
+            checker()
 
     if check:
         checker()
 
-	# Add Rectified Change
-	print("Adding rectified change.")
-	for i, ti in enumerate(years[:-1]):
-	    tj = years[i + 1]
-	    df[f"rch_{ti}:{tj}"] = (df[f"gch_{ti}:{tj}"] - df[f"mccc_{ti}:{tj}"]) / (df[f"stdc_{ti}:{tj}"] * np.sqrt(1 + 1/end))
+    # Add Difference in Frequencies
+    print("Adding difference in frequencies.")
+    for i, ti in enumerate(years[:-1]):
+        tj = years[i + 1]
+        df[f"diff_{ti}:{tj}"] = df[f"frq{ti}"] - df[f"frq{tj}"]
 
     if check:
         checker()
 
-	# Add Genuine Similarity
-	print("Adding genuine similarity.")
-	for file in os.listdir(measures / "cosine_sim"):
-	    if file.strip(".txt").endswith("genuine"):
-	        c_name = file.strip("_genuine.txt").replace("_", ":")
-	        c_name = "gsim_" + c_name # Genuine Cosine Similarity
-	        df[c_name] = pd.Series(load_metric(measures / f"cosine_sim/{file}"))
+    # Add Genuine Change
+    print("Adding genuine change.")
+    for file in os.listdir(measures / "cosine_change"):
+        if file.strip(".txt").endswith("genuine"):
+            c_name = file.strip("_genuine.txt").replace("_", ":")
+            c_name = "gch_" + c_name # Genuine Cosine Change
+            df[c_name] = pd.Series(load_metric(measures / f"cosine_change/{file}"))
 
     if check:
         checker()
 
-	# Add Mean and Std. of Similarity Controls
-	print("Adding Mean and Std. of Similarity Controls.")
-	for i, ti in enumerate(years[:-1]):
-	    tj = years[i + 1]
-	    control = []
-	    for i in range(start, end + 1):
-	        s = pd.Series(load_metric(measures / f"cosine_sim/{ti}_{tj}_control{i}.txt"))
-	        control.append(s)
+    # Add Mean and Std. of Change Controls
+    print("Adding Mean, Std. of Change Controls")
+    start, end = c_span
 
-	    control = pd.concat(control, axis=1)
-	    df[f"mcsim_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Similarity Controle
-	    df[f"stdsim_{ti}:{tj}"] = control.std(axis=1, ddof=1)
+    for i, ti in enumerate(years[:-1]):
+        tj = years[i + 1]
+        control = []
+        for i in range(start, end + 1):
+            s = pd.Series(load_metric(measures / f"cosine_change/{ti}_{tj}_control{i}.txt"))
+            control.append(s)
 
-    if check:
-        checker()
-
-	# Add Rectified Similarity
-	print("Adding rectified similarity.")
-	for i, ti in enumerate(years[:-1]):
-	    tj = years[i + 1]
-	    df[f"rsim_{ti}:{tj}"] = (df[f"gsim_{ti}:{tj}"] - df[f"mcsim_{ti}:{tj}"]) / (df[f"stdsim_{ti}:{tj}"] * np.sqrt(1 + 1/end))
+        control = pd.concat(control, axis=1)
+        df[f"mccc_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Change Controle
+        df[f"stdc_{ti}:{tj}"] = control.std(axis=1, ddof=1)
 
     if check:
         checker()
 
-	# Save
-	print("Saving to CSV-file.")
-	df.to_csv(path_or_buf=file_path, sep=';')
+    # Add Rectified Change
+    print("Adding rectified change.")
+    for i, ti in enumerate(years[:-1]):
+        tj = years[i + 1]
+        df[f"rch_{ti}:{tj}"] = (df[f"gch_{ti}:{tj}"] - df[f"mccc_{ti}:{tj}"]) / (df[f"stdc_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
-	t1 = time.perf_counter()
-	print(f"Done! (in {int(t1-t0)} seconds)")
+    if check:
+        checker()
+
+    # Add Genuine Similarity
+    print("Adding genuine similarity.")
+    for file in os.listdir(measures / "cosine_sim"):
+        if file.strip(".txt").endswith("genuine"):
+            c_name = file.strip("_genuine.txt").replace("_", ":")
+            c_name = "gsim_" + c_name # Genuine Cosine Similarity
+            df[c_name] = pd.Series(load_metric(measures / f"cosine_sim/{file}"))
+
+    if check:
+        checker()
+
+    # Add Mean and Std. of Similarity Controls
+    print("Adding Mean and Std. of Similarity Controls.")
+    for i, ti in enumerate(years[:-1]):
+        tj = years[i + 1]
+        control = []
+        for i in range(start, end + 1):
+            s = pd.Series(load_metric(measures / f"cosine_sim/{ti}_{tj}_control{i}.txt"))
+            control.append(s)
+
+        control = pd.concat(control, axis=1)
+        df[f"mcsim_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Similarity Controle
+        df[f"stdsim_{ti}:{tj}"] = control.std(axis=1, ddof=1)
+
+    if check:
+        checker()
+
+    # Add Rectified Similarity
+    print("Adding rectified similarity.")
+    for i, ti in enumerate(years[:-1]):
+        tj = years[i + 1]
+        df[f"rsim_{ti}:{tj}"] = (df[f"gsim_{ti}:{tj}"] - df[f"mcsim_{ti}:{tj}"]) / (df[f"stdsim_{ti}:{tj}"] * np.sqrt(1 + 1/end))
+
+    if check:
+        checker()
+
+    # Save
+    print("Saving to CSV-file.")
+    df.to_csv(path_or_buf=file_path, sep=';')
+
+    t1 = time.perf_counter()
+    print(f"Done! (in {int(t1-t0)} seconds)")
 
 if __name__ == '__main__':
 
