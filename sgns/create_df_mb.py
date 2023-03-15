@@ -10,13 +10,27 @@ from pathlib import Path
 from util import load_metric
 import time
 
-def main(corpus, measures, file_path):
+def checker():
+    with open("../data/utils/dwts.txt", "r") as f:
+        dwts = [w.strip("\n") for w in f.readlines()]
+    
+    hits = set()
+    
+    for w in df.index:
+        for dw in dwts:
+            if dw in w:
+                hits.add(w)
+    
+    print(", ".join(list(hits)))
+
+def main(corpus, measures, file_path, check):
 
 	t0 = time.perf_counter()
 	print(f"Compiles dataframe from data in")
 	print(corpus)
 	print(measures)
-	print("...", end="\r")
+	print()
+	#print("...", end="\r")
 
 	# Setup
 	years = [int(file.strip(".txt")) for file in os.listdir(corpus/"files")]
@@ -30,23 +44,36 @@ def main(corpus, measures, file_path):
 	df = pd.DataFrame()
 
 	# Add Word Frequencies
+	print("Adding word frequencies.")
 	for year in years:
 	    freqs = {w: c for w, c in load_metric(corpus / f"vocab/{year}.txt").items() if c >= 5}
 	    df[f"frq{year}"] = pd.Series(freqs)
 
+    if check:
+        checker()
+
 	# Add Difference in Frequencies
+	print("Adding difference in frequencies.")
 	for i, ti in enumerate(years[:-1]):
 	    tj = years[i + 1]
 	    df[f"diff_{ti}:{tj}"] = df[f"frq{ti}"] - df[f"frq{tj}"]
 
+    if check:
+        checker()
+
 	# Add Genuine Change
+	print("Adding genuine change.")
 	for file in os.listdir(measures / "cosine_change"):
 	    if file.strip(".txt").endswith("genuine"):
 	        c_name = file.strip("_genuine.txt").replace("_", ":")
 	        c_name = "gch_" + c_name # Genuine Cosine Change
 	        df[c_name] = pd.Series(load_metric(measures / f"cosine_change/{file}"))
 
+    if check:
+        checker()	        
+
 	# Add Mean and Std. of Change Controls
+	print("Adding Mean, Std. of Change Controls")
 	start, end = c_span
 
 	for i, ti in enumerate(years[:-1]):
@@ -60,19 +87,31 @@ def main(corpus, measures, file_path):
 	    df[f"mccc_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Change Controle
 	    df[f"stdc_{ti}:{tj}"] = control.std(axis=1, ddof=1)	
 
+    if check:
+        checker()
+
 	# Add Rectified Change
+	print("Adding rectified change.")
 	for i, ti in enumerate(years[:-1]):
 	    tj = years[i + 1]
 	    df[f"rch_{ti}:{tj}"] = (df[f"gch_{ti}:{tj}"] - df[f"mccc_{ti}:{tj}"]) / (df[f"stdc_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
+    if check:
+        checker()
+
 	# Add Genuine Similarity
+	print("Adding genuine similarity.")
 	for file in os.listdir(measures / "cosine_sim"):
 	    if file.strip(".txt").endswith("genuine"):
 	        c_name = file.strip("_genuine.txt").replace("_", ":")
 	        c_name = "gsim_" + c_name # Genuine Cosine Similarity
 	        df[c_name] = pd.Series(load_metric(measures / f"cosine_sim/{file}"))
 
+    if check:
+        checker()
+
 	# Add Mean and Std. of Similarity Controls
+	print("Adding Mean and Std. of Similarity Controls.")
 	for i, ti in enumerate(years[:-1]):
 	    tj = years[i + 1]
 	    control = []
@@ -84,12 +123,20 @@ def main(corpus, measures, file_path):
 	    df[f"mcsim_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Similarity Controle
 	    df[f"stdsim_{ti}:{tj}"] = control.std(axis=1, ddof=1)
 
+    if check:
+        checker()
+
 	# Add Rectified Similarity
+	print("Adding rectified similarity.")
 	for i, ti in enumerate(years[:-1]):
 	    tj = years[i + 1]
 	    df[f"rsim_{ti}:{tj}"] = (df[f"gsim_{ti}:{tj}"] - df[f"mcsim_{ti}:{tj}"]) / (df[f"stdsim_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
+    if check:
+        checker()
+
 	# Save
+	print("Saving to CSV-file.")
 	df.to_csv(path_or_buf=file_path, sep=';')
 
 	t1 = time.perf_counter()
@@ -105,9 +152,10 @@ if __name__ == '__main__':
     parser.add_argument("corpus", type=str, help="corpus directory: where to find year/filenames and vocab")
     parser.add_argument("measures", type=str, help="measures directory: where to find cosine change and cosine similarity measures")
     parser.add_argument("file_path", type=str, help="file path of output: dataframe (csv)")
+    parser.add_argument("--check", "-c", action="store_true", help="provide this to print out words (index) of df during the process (development)")
 
     args = parser.parse_args()
 
-    main(Path(args.corpus), Path(args.measures), Path(args.file_path))		       	
+    main(Path(args.corpus), Path(args.measures), Path(args.file_path), args.check)		       	
 
 
