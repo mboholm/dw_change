@@ -9,6 +9,14 @@ import os
 from pathlib import Path
 from util import load_metric
 import time
+import re
+
+# OBSERVE!
+#################################
+import warnings
+warnings.filterwarnings("ignore")
+#################################
+
 
 def checker():
     with open("../data/utils/dwts.txt", "r") as f:
@@ -21,9 +29,13 @@ def checker():
             if dw in w:
                 hits.add(w)
     
-    print("IDF", ", ".join(list(hits)))
+    print("In DataFrame", ", ".join(list(hits)))
 
-def main(corpus, measures, file_path, check):
+def main(corpus, measures, file_path,  word_restrictor, min_frq, check):
+  # main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.check)
+    
+    if min_frq == None: 
+        min_frq = 5    
 
     global df
 
@@ -39,40 +51,56 @@ def main(corpus, measures, file_path, check):
     years.sort()
     first_year = min(years)
     last_year  = max(years)
+    
+    transitions = [(ti, years[i + 1]) for i, ti in enumerate(years[:-1])]
 
     c_numbers = set(int(n) for n in ["".join([ch for ch in file.strip(".txt").split("_")[-1] if ch.isdigit()]) for file in os.listdir(measures / "cosine_change") if "control" in file]) # to find the range of control measures
     c_span = min(c_numbers), max(c_numbers)
 
-    df = pd.DataFrame()
-
     # Add Word Frequencies
     print("Adding word frequencies.")
+    df_initialize = []
     for year in years:
-        if check:
-            loaded = load_metric(corpus / f"vocab/{year}.txt")
-            evidence = set()
-            for w in loaded.keys():
-                for t in ["berika", "gloablist", "förortsgäng"]:
-                    if t in w:
-                        evidence.add(w)
-            print("EVD:", ", ".join(list(evidence)))
-
         freqs = {w: c for w, c in load_metric(corpus / f"vocab/{year}.txt").items()}
-        df[f"frq{year}"] = pd.Series(freqs)
-        # Here we want to expand the dataframe with new words. 
-        # With `df[f"frq{year}"] = pd.Series(freqs)` this does not happen.
-
-        if check:
-            checker()
+        df_initialize.append(pd.Series(freqs, name=f"frq_{year}"))
+    
+    df = pd.concat(df_initialize, axis=1)
+    
+    print("Length of (unmodified) vocabulary)", len(df))
 
     if check:
         checker()
+    
+    # Restriction of words ...
+    if word_restrictor != None:
+        with open(word_restrictor, "r") as f:
+            r_forms = [form.strip("\n") for form in f.readlines()]
+        
+        regex = re.compile(f"({'|'.join(r_forms)})")
+        restriction = [str(w) for w in df.index if re.search(regex, str(w)) != None]
+        df = df.loc[restriction]
+        
+        print("Length restricted vocabulary:", len(df))
+        print("Restricted vocabulary:", ", ".join(list(df.index)))
+    
+    # For frequencies, replace NaN with 0
+    df = df.fillna(0)
+    # Add frq_tot
+    df["frq_tot"] = df.loc[:, f"frq_{first_year}":f"frq_{last_year}"].sum(axis=1) # axis???
+    # Add document frequency
+    document_frequency = df.loc[:, f"frq_{first_year}":f"frq_{last_year}"] > 0 # True if frq > 0 else False
+    df["frq_doc"] = document_frequency.sum(axis=1)
+    
+    # Clean up table: remove words with total freq <= min freq; remove words with doc frq <= min doc freq (e.g. 3)
+    df = df.drop(df[df["frq_tot"] < min_frq].index)
+    df = df.drop(df[df["frq_doc"] < 3].index) # selecting 2 as criterion as no effect; which is strange
+    
+    print("Length of reduced vocabulary)", len(df))
 
     # Add Difference in Frequencies
     print("Adding difference in frequencies.")
-    for i, ti in enumerate(years[:-1]):
-        tj = years[i + 1]
-        df[f"diff_{ti}:{tj}"] = df[f"frq{ti}"] - df[f"frq{tj}"]
+    for ti, tj in transitions:
+        df[f"dif_{ti}:{tj}"] = df[f"frq_{ti}"] - df[f"frq_{tj}"]
 
     if check:
         checker()
@@ -92,8 +120,7 @@ def main(corpus, measures, file_path, check):
     print("Adding Mean, Std. of Change Controls")
     start, end = c_span
 
-    for i, ti in enumerate(years[:-1]):
-        tj = years[i + 1]
+    for ti, tj in transitions:
         control = []
         for i in range(start, end + 1):
             s = pd.Series(load_metric(measures / f"cosine_change/{ti}_{tj}_control{i}.txt"))
@@ -108,8 +135,7 @@ def main(corpus, measures, file_path, check):
 
     # Add Rectified Change
     print("Adding rectified change.")
-    for i, ti in enumerate(years[:-1]):
-        tj = years[i + 1]
+    for ti, tj in transitions:
         df[f"rch_{ti}:{tj}"] = (df[f"gch_{ti}:{tj}"] - df[f"mccc_{ti}:{tj}"]) / (df[f"stdc_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
     if check:
@@ -128,8 +154,7 @@ def main(corpus, measures, file_path, check):
 
     # Add Mean and Std. of Similarity Controls
     print("Adding Mean and Std. of Similarity Controls.")
-    for i, ti in enumerate(years[:-1]):
-        tj = years[i + 1]
+    for ti, tj in transitions:
         control = []
         for i in range(start, end + 1):
             s = pd.Series(load_metric(measures / f"cosine_sim/{ti}_{tj}_control{i}.txt"))
@@ -144,8 +169,7 @@ def main(corpus, measures, file_path, check):
 
     # Add Rectified Similarity
     print("Adding rectified similarity.")
-    for i, ti in enumerate(years[:-1]):
-        tj = years[i + 1]
+    for ti, tj in transitions:
         df[f"rsim_{ti}:{tj}"] = (df[f"gsim_{ti}:{tj}"] - df[f"mcsim_{ti}:{tj}"]) / (df[f"stdsim_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
     if check:
@@ -168,10 +192,16 @@ if __name__ == '__main__':
     parser.add_argument("corpus", type=str, help="corpus directory: where to find year/filenames and vocab")
     parser.add_argument("measures", type=str, help="measures directory: where to find cosine change and cosine similarity measures")
     parser.add_argument("file_path", type=str, help="file path of output: dataframe (csv)")
+    parser.add_argument("--restrict_words", "-r", help="provide file_path to file with roots to restrict vocabulary")
+    parser.add_argument("--min_freq", "-m", type=int, default=5, help="minimum frequency of words' total frequency to consider (deafult = 5)")    
     parser.add_argument("--check", "-c", action="store_true", help="provide this to print out words (index) of df during the process (development)")
 
     args = parser.parse_args()
 
-    main(Path(args.corpus), Path(args.measures), Path(args.file_path), args.check)		       	
+    if isinstance(args.restrict_words, str):
+        r_words_file = Path(args.restrict_words)
+    else:
+        r_words_file = None
 
+    main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.check)    
 

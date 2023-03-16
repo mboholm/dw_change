@@ -45,7 +45,7 @@ def cosine_change(wv1, wv2, vocab=None):
     #elif wv1.index2word != wv2.index2word:      #mb. replaced this
     elif wv1.index_to_key != wv2.index_to_key:   #mb. ... with this
         #common_vocab = [w for w in wv1.index2word if w in wv2.index2word]      #mb. replaced this
-        common_vocab = [w for w in wv1.index_to_key if w in wv2.index_to_key]   #mb. ... with this
+        common_vocab = [w for w in wv1.index_to_key if w in wv2.index_to_key]   #mb. ... with this; mb. intersection
 
         vecs1 = np.stack([wv1[w] for w in common_vocab])                       
         vecs2 = np.stack([wv2[w] for w in common_vocab])

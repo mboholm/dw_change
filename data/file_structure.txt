@@ -1,0 +1,25 @@
+.
+├── create_bin.sh
+├── create_global.sh
+├── diachronic_sampler.py
+├── explore_diapol_dwts.ipynb
+├── extok_stats.ipynb
+├── file_structure.txt
+├── obsolete
+│   ├── diachronic_sampler.ipynb
+│   ├── read_large_xml.ipynb
+│   ├── read_large_xml_msent.ipynb
+│   ├── tok_counter.ipynb
+│   └── word_counter.ipynb
+├── preprocess2.ipynb
+├── preprocess_dwt.ipynb
+├── read_large_xml.py
+├── spp_counter.py
+├── tok_counter.py
+├── utils
+│   ├── dwts.paradigm
+│   ├── dwts.txt
+│   └── stopwords-sv.txt
+└── word_counter.py
+
+2 directories, 20 files
