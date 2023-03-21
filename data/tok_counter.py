@@ -13,7 +13,7 @@ def count_save(corpus, output_file):
     counter = {year: {"examples": 0, "word_tokens": 0} for year in years}
     
     for i, file in enumerate(files, start=1):
-        print(f"word_counter.py processing {file} ({i} / {len(files)})", end="\r")
+        print(f"tok_counter.py processing {file} ({i} / {len(files)})", end="\r")
         with open(corpus / file) as f:
             year = file.strip(".txt")
             for line in f:
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("corpus", type=str, help="path to corpus to be counted")
-    parser.add_argument("output_file", type=str, help="file for results")
+    parser.add_argument("output_file", type=str, help="file for results (extok_counts.json)")
 
     args = parser.parse_args()
     

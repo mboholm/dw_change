@@ -1,25 +1,1224 @@
-.
-├── create_bin.sh
-├── create_global.sh
-├── diachronic_sampler.py
-├── explore_diapol_dwts.ipynb
-├── extok_stats.ipynb
-├── file_structure.txt
-├── obsolete
-│   ├── diachronic_sampler.ipynb
-│   ├── read_large_xml.ipynb
-│   ├── read_large_xml_msent.ipynb
-│   ├── tok_counter.ipynb
-│   └── word_counter.ipynb
-├── preprocess2.ipynb
-├── preprocess_dwt.ipynb
-├── read_large_xml.py
-├── spp_counter.py
-├── tok_counter.py
-├── utils
-│   ├── dwts.paradigm
-│   ├── dwts.txt
-│   └── stopwords-sv.txt
-└── word_counter.py
+/srv/data/gusbohom/root
+├── corpora
+│   ├── fb_pol
+│   │   ├── time_bin
+│   │   │   └── radical3
+│   │   │       ├── extok_counts.json
+│   │   │       ├── files
+│   │   │       │   ├── 2003.txt
+│   │   │       │   ├── 2007.txt
+│   │   │       │   ├── 2011.txt
+│   │   │       │   ├── 2015.txt
+│   │   │       │   └── 2019.txt
+│   │   │       ├── files2003.txt
+│   │   │       ├── files2007.txt
+│   │   │       ├── files2011.txt
+│   │   │       ├── files2015.txt
+│   │   │       ├── files2019.txt
+│   │   │       └── vocab
+│   │   │           ├── 2003.txt
+│   │   │           ├── 2007.txt
+│   │   │           ├── 2011.txt
+│   │   │           ├── 2015.txt
+│   │   │           └── 2019.txt
+│   │   └── yearly
+│   │       └── radical3
+│   │           ├── extok_counts.json
+│   │           ├── files
+│   │           │   ├── 2000.txt
+│   │           │   ├── 2001.txt
+│   │           │   ├── 2002.txt
+│   │           │   ├── 2003.txt
+│   │           │   ├── 2004.txt
+│   │           │   ├── 2005.txt
+│   │           │   ├── 2006.txt
+│   │           │   ├── 2007.txt
+│   │           │   ├── 2008.txt
+│   │           │   ├── 2009.txt
+│   │           │   ├── 2010.txt
+│   │           │   ├── 2011.txt
+│   │           │   ├── 2012.txt
+│   │           │   ├── 2013.txt
+│   │           │   ├── 2014.txt
+│   │           │   ├── 2015.txt
+│   │           │   ├── 2016.txt
+│   │           │   ├── 2017.txt
+│   │           │   ├── 2018.txt
+│   │           │   ├── 2019.txt
+│   │           │   ├── 2020.txt
+│   │           │   ├── 2021.txt
+│   │           │   └── 2022.txt
+│   │           └── vocab
+│   │               ├── 2000.txt
+│   │               ├── 2001.txt
+│   │               ├── 2002.txt
+│   │               ├── 2003.txt
+│   │               ├── 2004.txt
+│   │               ├── 2005.txt
+│   │               ├── 2006.txt
+│   │               ├── 2007.txt
+│   │               ├── 2008.txt
+│   │               ├── 2009.txt
+│   │               ├── 2010.txt
+│   │               ├── 2011.txt
+│   │               ├── 2012.txt
+│   │               ├── 2013.txt
+│   │               ├── 2014.txt
+│   │               ├── 2015.txt
+│   │               ├── 2016.txt
+│   │               ├── 2017.txt
+│   │               ├── 2018.txt
+│   │               ├── 2019.txt
+│   │               ├── 2020.txt
+│   │               ├── 2021.txt
+│   │               └── 2022.txt
+│   └── toypol
+│       ├── time_bin
+│       │   └── radical3
+│       │       ├── files
+│       │       │   ├── 2003.txt
+│       │       │   ├── 2007.txt
+│       │       │   ├── 2011.txt
+│       │       │   ├── 2015.txt
+│       │       │   └── 2019.txt
+│       │       └── vocab
+│       │           ├── 2003.txt
+│       │           ├── 2007.txt
+│       │           ├── 2011.txt
+│       │           ├── 2015.txt
+│       │           └── 2019.txt
+│       └── yearly
+│           └── radical3
+│               ├── files
+│               │   ├── 2004.txt
+│               │   ├── 2005.txt
+│               │   ├── 2006.txt
+│               │   ├── 2007.txt
+│               │   ├── 2008.txt
+│               │   ├── 2009.txt
+│               │   ├── 2010.txt
+│               │   ├── 2011.txt
+│               │   ├── 2012.txt
+│               │   ├── 2013.txt
+│               │   └── 2014.txt
+│               └── vocab
+│                   ├── 2004.txt
+│                   ├── 2005.txt
+│                   ├── 2006.txt
+│                   ├── 2007.txt
+│                   ├── 2008.txt
+│                   ├── 2009.txt
+│                   ├── 2010.txt
+│                   ├── 2011.txt
+│                   ├── 2012.txt
+│                   ├── 2013.txt
+│                   └── 2014.txt
+├── experiment
+│   ├── fb_pol-time_bin-radical3
+│   │   ├── cosine_change
+│   │   │   ├── 2003_2007_control10.txt
+│   │   │   ├── 2003_2007_control1.txt
+│   │   │   ├── 2003_2007_control2.txt
+│   │   │   ├── 2003_2007_control3.txt
+│   │   │   ├── 2003_2007_control4.txt
+│   │   │   ├── 2003_2007_control5.txt
+│   │   │   ├── 2003_2007_control6.txt
+│   │   │   ├── 2003_2007_control7.txt
+│   │   │   ├── 2003_2007_control8.txt
+│   │   │   ├── 2003_2007_control9.txt
+│   │   │   ├── 2003_2007_genuine.txt
+│   │   │   ├── 2007_2011_control10.txt
+│   │   │   ├── 2007_2011_control1.txt
+│   │   │   ├── 2007_2011_control2.txt
+│   │   │   ├── 2007_2011_control3.txt
+│   │   │   ├── 2007_2011_control4.txt
+│   │   │   ├── 2007_2011_control5.txt
+│   │   │   ├── 2007_2011_control6.txt
+│   │   │   ├── 2007_2011_control7.txt
+│   │   │   ├── 2007_2011_control8.txt
+│   │   │   ├── 2007_2011_control9.txt
+│   │   │   ├── 2007_2011_genuine.txt
+│   │   │   ├── 2011_2015_control10.txt
+│   │   │   ├── 2011_2015_control1.txt
+│   │   │   ├── 2011_2015_control2.txt
+│   │   │   ├── 2011_2015_control3.txt
+│   │   │   ├── 2011_2015_control4.txt
+│   │   │   ├── 2011_2015_control5.txt
+│   │   │   ├── 2011_2015_control6.txt
+│   │   │   ├── 2011_2015_control7.txt
+│   │   │   ├── 2011_2015_control8.txt
+│   │   │   ├── 2011_2015_control9.txt
+│   │   │   ├── 2011_2015_genuine.txt
+│   │   │   ├── 2015_2019_control10.txt
+│   │   │   ├── 2015_2019_control1.txt
+│   │   │   ├── 2015_2019_control2.txt
+│   │   │   ├── 2015_2019_control3.txt
+│   │   │   ├── 2015_2019_control4.txt
+│   │   │   ├── 2015_2019_control5.txt
+│   │   │   ├── 2015_2019_control6.txt
+│   │   │   ├── 2015_2019_control7.txt
+│   │   │   ├── 2015_2019_control8.txt
+│   │   │   ├── 2015_2019_control9.txt
+│   │   │   └── 2015_2019_genuine.txt
+│   │   ├── cosine_sim
+│   │   │   ├── 2003_2007_control10.txt
+│   │   │   ├── 2003_2007_control1.txt
+│   │   │   ├── 2003_2007_control2.txt
+│   │   │   ├── 2003_2007_control3.txt
+│   │   │   ├── 2003_2007_control4.txt
+│   │   │   ├── 2003_2007_control5.txt
+│   │   │   ├── 2003_2007_control6.txt
+│   │   │   ├── 2003_2007_control7.txt
+│   │   │   ├── 2003_2007_control8.txt
+│   │   │   ├── 2003_2007_control9.txt
+│   │   │   ├── 2003_2007_genuine.txt
+│   │   │   ├── 2007_2011_control10.txt
+│   │   │   ├── 2007_2011_control1.txt
+│   │   │   ├── 2007_2011_control2.txt
+│   │   │   ├── 2007_2011_control3.txt
+│   │   │   ├── 2007_2011_control4.txt
+│   │   │   ├── 2007_2011_control5.txt
+│   │   │   ├── 2007_2011_control6.txt
+│   │   │   ├── 2007_2011_control7.txt
+│   │   │   ├── 2007_2011_control8.txt
+│   │   │   ├── 2007_2011_control9.txt
+│   │   │   ├── 2007_2011_genuine.txt
+│   │   │   ├── 2011_2015_control10.txt
+│   │   │   ├── 2011_2015_control1.txt
+│   │   │   ├── 2011_2015_control2.txt
+│   │   │   ├── 2011_2015_control3.txt
+│   │   │   ├── 2011_2015_control4.txt
+│   │   │   ├── 2011_2015_control5.txt
+│   │   │   ├── 2011_2015_control6.txt
+│   │   │   ├── 2011_2015_control7.txt
+│   │   │   ├── 2011_2015_control8.txt
+│   │   │   ├── 2011_2015_control9.txt
+│   │   │   ├── 2011_2015_genuine.txt
+│   │   │   ├── 2015_2019_control10.txt
+│   │   │   ├── 2015_2019_control1.txt
+│   │   │   ├── 2015_2019_control2.txt
+│   │   │   ├── 2015_2019_control3.txt
+│   │   │   ├── 2015_2019_control4.txt
+│   │   │   ├── 2015_2019_control5.txt
+│   │   │   ├── 2015_2019_control6.txt
+│   │   │   ├── 2015_2019_control7.txt
+│   │   │   ├── 2015_2019_control8.txt
+│   │   │   ├── 2015_2019_control9.txt
+│   │   │   └── 2015_2019_genuine.txt
+│   │   └── models
+│   │       ├── 2003
+│   │       ├── 2003.log
+│   │       ├── 2003.w2v
+│   │       ├── 2007
+│   │       ├── 2007.log
+│   │       ├── 2007.syn1neg.npy
+│   │       ├── 2007.w2v
+│   │       ├── 2007.wv.vectors.npy
+│   │       ├── 2011
+│   │       ├── 2011.log
+│   │       ├── 2011.syn1neg.npy
+│   │       ├── 2011.w2v
+│   │       ├── 2011.wv.vectors.npy
+│   │       ├── 2015
+│   │       ├── 2015.log
+│   │       ├── 2015.syn1neg.npy
+│   │       ├── 2015.w2v
+│   │       ├── 2015.wv.vectors.npy
+│   │       ├── 2019
+│   │       ├── 2019.log
+│   │       ├── 2019.syn1neg.npy
+│   │       ├── 2019.w2v
+│   │       └── 2019.wv.vectors.npy
+│   ├── fb_pol-yearly-radical3
+│   │   ├── cosine_change
+│   │   │   ├── 2000_2001_control10.txt
+│   │   │   ├── 2000_2001_control1.txt
+│   │   │   ├── 2000_2001_control2.txt
+│   │   │   ├── 2000_2001_control3.txt
+│   │   │   ├── 2000_2001_control4.txt
+│   │   │   ├── 2000_2001_control5.txt
+│   │   │   ├── 2000_2001_control6.txt
+│   │   │   ├── 2000_2001_control7.txt
+│   │   │   ├── 2000_2001_control8.txt
+│   │   │   ├── 2000_2001_control9.txt
+│   │   │   ├── 2000_2001_genuine.txt
+│   │   │   ├── 2001_2002_control10.txt
+│   │   │   ├── 2001_2002_control1.txt
+│   │   │   ├── 2001_2002_control2.txt
+│   │   │   ├── 2001_2002_control3.txt
+│   │   │   ├── 2001_2002_control4.txt
+│   │   │   ├── 2001_2002_control5.txt
+│   │   │   ├── 2001_2002_control6.txt
+│   │   │   ├── 2001_2002_control7.txt
+│   │   │   ├── 2001_2002_control8.txt
+│   │   │   ├── 2001_2002_control9.txt
+│   │   │   ├── 2001_2002_genuine.txt
+│   │   │   ├── 2002_2003_control10.txt
+│   │   │   ├── 2002_2003_control1.txt
+│   │   │   ├── 2002_2003_control2.txt
+│   │   │   ├── 2002_2003_control3.txt
+│   │   │   ├── 2002_2003_control4.txt
+│   │   │   ├── 2002_2003_control5.txt
+│   │   │   ├── 2002_2003_control6.txt
+│   │   │   ├── 2002_2003_control7.txt
+│   │   │   ├── 2002_2003_control8.txt
+│   │   │   ├── 2002_2003_control9.txt
+│   │   │   ├── 2002_2003_genuine.txt
+│   │   │   ├── 2003_2004_control10.txt
+│   │   │   ├── 2003_2004_control1.txt
+│   │   │   ├── 2003_2004_control2.txt
+│   │   │   ├── 2003_2004_control3.txt
+│   │   │   ├── 2003_2004_control4.txt
+│   │   │   ├── 2003_2004_control5.txt
+│   │   │   ├── 2003_2004_control6.txt
+│   │   │   ├── 2003_2004_control7.txt
+│   │   │   ├── 2003_2004_control8.txt
+│   │   │   ├── 2003_2004_control9.txt
+│   │   │   ├── 2003_2004_genuine.txt
+│   │   │   ├── 2004_2005_control10.txt
+│   │   │   ├── 2004_2005_control1.txt
+│   │   │   ├── 2004_2005_control2.txt
+│   │   │   ├── 2004_2005_control3.txt
+│   │   │   ├── 2004_2005_control4.txt
+│   │   │   ├── 2004_2005_control5.txt
+│   │   │   ├── 2004_2005_control6.txt
+│   │   │   ├── 2004_2005_control7.txt
+│   │   │   ├── 2004_2005_control8.txt
+│   │   │   ├── 2004_2005_control9.txt
+│   │   │   ├── 2004_2005_genuine.txt
+│   │   │   ├── 2005_2006_control10.txt
+│   │   │   ├── 2005_2006_control1.txt
+│   │   │   ├── 2005_2006_control2.txt
+│   │   │   ├── 2005_2006_control3.txt
+│   │   │   ├── 2005_2006_control4.txt
+│   │   │   ├── 2005_2006_control5.txt
+│   │   │   ├── 2005_2006_control6.txt
+│   │   │   ├── 2005_2006_control7.txt
+│   │   │   ├── 2005_2006_control8.txt
+│   │   │   ├── 2005_2006_control9.txt
+│   │   │   ├── 2005_2006_genuine.txt
+│   │   │   ├── 2006_2007_control10.txt
+│   │   │   ├── 2006_2007_control1.txt
+│   │   │   ├── 2006_2007_control2.txt
+│   │   │   ├── 2006_2007_control3.txt
+│   │   │   ├── 2006_2007_control4.txt
+│   │   │   ├── 2006_2007_control5.txt
+│   │   │   ├── 2006_2007_control6.txt
+│   │   │   ├── 2006_2007_control7.txt
+│   │   │   ├── 2006_2007_control8.txt
+│   │   │   ├── 2006_2007_control9.txt
+│   │   │   ├── 2006_2007_genuine.txt
+│   │   │   ├── 2007_2008_control10.txt
+│   │   │   ├── 2007_2008_control1.txt
+│   │   │   ├── 2007_2008_control2.txt
+│   │   │   ├── 2007_2008_control3.txt
+│   │   │   ├── 2007_2008_control4.txt
+│   │   │   ├── 2007_2008_control5.txt
+│   │   │   ├── 2007_2008_control6.txt
+│   │   │   ├── 2007_2008_control7.txt
+│   │   │   ├── 2007_2008_control8.txt
+│   │   │   ├── 2007_2008_control9.txt
+│   │   │   ├── 2007_2008_genuine.txt
+│   │   │   ├── 2008_2009_control10.txt
+│   │   │   ├── 2008_2009_control1.txt
+│   │   │   ├── 2008_2009_control2.txt
+│   │   │   ├── 2008_2009_control3.txt
+│   │   │   ├── 2008_2009_control4.txt
+│   │   │   ├── 2008_2009_control5.txt
+│   │   │   ├── 2008_2009_control6.txt
+│   │   │   ├── 2008_2009_control7.txt
+│   │   │   ├── 2008_2009_control8.txt
+│   │   │   ├── 2008_2009_control9.txt
+│   │   │   ├── 2008_2009_genuine.txt
+│   │   │   ├── 2009_2010_control10.txt
+│   │   │   ├── 2009_2010_control1.txt
+│   │   │   ├── 2009_2010_control2.txt
+│   │   │   ├── 2009_2010_control3.txt
+│   │   │   ├── 2009_2010_control4.txt
+│   │   │   ├── 2009_2010_control5.txt
+│   │   │   ├── 2009_2010_control6.txt
+│   │   │   ├── 2009_2010_control7.txt
+│   │   │   ├── 2009_2010_control8.txt
+│   │   │   ├── 2009_2010_control9.txt
+│   │   │   ├── 2009_2010_genuine.txt
+│   │   │   ├── 2010_2011_control10.txt
+│   │   │   ├── 2010_2011_control1.txt
+│   │   │   ├── 2010_2011_control2.txt
+│   │   │   ├── 2010_2011_control3.txt
+│   │   │   ├── 2010_2011_control4.txt
+│   │   │   ├── 2010_2011_control5.txt
+│   │   │   ├── 2010_2011_control6.txt
+│   │   │   ├── 2010_2011_control7.txt
+│   │   │   ├── 2010_2011_control8.txt
+│   │   │   ├── 2010_2011_control9.txt
+│   │   │   ├── 2010_2011_genuine.txt
+│   │   │   ├── 2011_2012_control10.txt
+│   │   │   ├── 2011_2012_control1.txt
+│   │   │   ├── 2011_2012_control2.txt
+│   │   │   ├── 2011_2012_control3.txt
+│   │   │   ├── 2011_2012_control4.txt
+│   │   │   ├── 2011_2012_control5.txt
+│   │   │   ├── 2011_2012_control6.txt
+│   │   │   ├── 2011_2012_control7.txt
+│   │   │   ├── 2011_2012_control8.txt
+│   │   │   ├── 2011_2012_control9.txt
+│   │   │   ├── 2011_2012_genuine.txt
+│   │   │   ├── 2012_2013_control10.txt
+│   │   │   ├── 2012_2013_control1.txt
+│   │   │   ├── 2012_2013_control2.txt
+│   │   │   ├── 2012_2013_control3.txt
+│   │   │   ├── 2012_2013_control4.txt
+│   │   │   ├── 2012_2013_control5.txt
+│   │   │   ├── 2012_2013_control6.txt
+│   │   │   ├── 2012_2013_control7.txt
+│   │   │   ├── 2012_2013_control8.txt
+│   │   │   ├── 2012_2013_control9.txt
+│   │   │   ├── 2012_2013_genuine.txt
+│   │   │   ├── 2013_2014_control10.txt
+│   │   │   ├── 2013_2014_control1.txt
+│   │   │   ├── 2013_2014_control2.txt
+│   │   │   ├── 2013_2014_control3.txt
+│   │   │   ├── 2013_2014_control4.txt
+│   │   │   ├── 2013_2014_control5.txt
+│   │   │   ├── 2013_2014_control6.txt
+│   │   │   ├── 2013_2014_control7.txt
+│   │   │   ├── 2013_2014_control8.txt
+│   │   │   ├── 2013_2014_control9.txt
+│   │   │   ├── 2013_2014_genuine.txt
+│   │   │   ├── 2014_2015_control10.txt
+│   │   │   ├── 2014_2015_control1.txt
+│   │   │   ├── 2014_2015_control2.txt
+│   │   │   ├── 2014_2015_control3.txt
+│   │   │   ├── 2014_2015_control4.txt
+│   │   │   ├── 2014_2015_control5.txt
+│   │   │   ├── 2014_2015_control6.txt
+│   │   │   ├── 2014_2015_control7.txt
+│   │   │   ├── 2014_2015_control8.txt
+│   │   │   ├── 2014_2015_control9.txt
+│   │   │   ├── 2014_2015_genuine.txt
+│   │   │   ├── 2015_2016_control10.txt
+│   │   │   ├── 2015_2016_control1.txt
+│   │   │   ├── 2015_2016_control2.txt
+│   │   │   ├── 2015_2016_control3.txt
+│   │   │   ├── 2015_2016_control4.txt
+│   │   │   ├── 2015_2016_control5.txt
+│   │   │   ├── 2015_2016_control6.txt
+│   │   │   ├── 2015_2016_control7.txt
+│   │   │   ├── 2015_2016_control8.txt
+│   │   │   ├── 2015_2016_control9.txt
+│   │   │   ├── 2015_2016_genuine.txt
+│   │   │   ├── 2016_2017_control10.txt
+│   │   │   ├── 2016_2017_control1.txt
+│   │   │   ├── 2016_2017_control2.txt
+│   │   │   ├── 2016_2017_control3.txt
+│   │   │   ├── 2016_2017_control4.txt
+│   │   │   ├── 2016_2017_control5.txt
+│   │   │   ├── 2016_2017_control6.txt
+│   │   │   ├── 2016_2017_control7.txt
+│   │   │   ├── 2016_2017_control8.txt
+│   │   │   ├── 2016_2017_control9.txt
+│   │   │   ├── 2016_2017_genuine.txt
+│   │   │   ├── 2017_2018_control10.txt
+│   │   │   ├── 2017_2018_control1.txt
+│   │   │   ├── 2017_2018_control2.txt
+│   │   │   ├── 2017_2018_control3.txt
+│   │   │   ├── 2017_2018_control4.txt
+│   │   │   ├── 2017_2018_control5.txt
+│   │   │   ├── 2017_2018_control6.txt
+│   │   │   ├── 2017_2018_control7.txt
+│   │   │   ├── 2017_2018_control8.txt
+│   │   │   ├── 2017_2018_control9.txt
+│   │   │   ├── 2017_2018_genuine.txt
+│   │   │   ├── 2018_2019_control10.txt
+│   │   │   ├── 2018_2019_control1.txt
+│   │   │   ├── 2018_2019_control2.txt
+│   │   │   ├── 2018_2019_control3.txt
+│   │   │   ├── 2018_2019_control4.txt
+│   │   │   ├── 2018_2019_control5.txt
+│   │   │   ├── 2018_2019_control6.txt
+│   │   │   ├── 2018_2019_control7.txt
+│   │   │   ├── 2018_2019_control8.txt
+│   │   │   ├── 2018_2019_control9.txt
+│   │   │   ├── 2018_2019_genuine.txt
+│   │   │   ├── 2019_2020_control10.txt
+│   │   │   ├── 2019_2020_control1.txt
+│   │   │   ├── 2019_2020_control2.txt
+│   │   │   ├── 2019_2020_control3.txt
+│   │   │   ├── 2019_2020_control4.txt
+│   │   │   ├── 2019_2020_control5.txt
+│   │   │   ├── 2019_2020_control6.txt
+│   │   │   ├── 2019_2020_control7.txt
+│   │   │   ├── 2019_2020_control8.txt
+│   │   │   ├── 2019_2020_control9.txt
+│   │   │   ├── 2019_2020_genuine.txt
+│   │   │   ├── 2020_2021_control10.txt
+│   │   │   ├── 2020_2021_control1.txt
+│   │   │   ├── 2020_2021_control2.txt
+│   │   │   ├── 2020_2021_control3.txt
+│   │   │   ├── 2020_2021_control4.txt
+│   │   │   ├── 2020_2021_control5.txt
+│   │   │   ├── 2020_2021_control6.txt
+│   │   │   ├── 2020_2021_control7.txt
+│   │   │   ├── 2020_2021_control8.txt
+│   │   │   ├── 2020_2021_control9.txt
+│   │   │   ├── 2020_2021_genuine.txt
+│   │   │   ├── 2021_2022_control10.txt
+│   │   │   ├── 2021_2022_control1.txt
+│   │   │   ├── 2021_2022_control2.txt
+│   │   │   ├── 2021_2022_control3.txt
+│   │   │   ├── 2021_2022_control4.txt
+│   │   │   ├── 2021_2022_control5.txt
+│   │   │   ├── 2021_2022_control6.txt
+│   │   │   ├── 2021_2022_control7.txt
+│   │   │   ├── 2021_2022_control8.txt
+│   │   │   ├── 2021_2022_control9.txt
+│   │   │   └── 2021_2022_genuine.txt
+│   │   ├── cosine_sim
+│   │   │   ├── 2000_2001_control10.txt
+│   │   │   ├── 2000_2001_control1.txt
+│   │   │   ├── 2000_2001_control2.txt
+│   │   │   ├── 2000_2001_control3.txt
+│   │   │   ├── 2000_2001_control4.txt
+│   │   │   ├── 2000_2001_control5.txt
+│   │   │   ├── 2000_2001_control6.txt
+│   │   │   ├── 2000_2001_control7.txt
+│   │   │   ├── 2000_2001_control8.txt
+│   │   │   ├── 2000_2001_control9.txt
+│   │   │   ├── 2000_2001_genuine.txt
+│   │   │   ├── 2001_2002_control10.txt
+│   │   │   ├── 2001_2002_control1.txt
+│   │   │   ├── 2001_2002_control2.txt
+│   │   │   ├── 2001_2002_control3.txt
+│   │   │   ├── 2001_2002_control4.txt
+│   │   │   ├── 2001_2002_control5.txt
+│   │   │   ├── 2001_2002_control6.txt
+│   │   │   ├── 2001_2002_control7.txt
+│   │   │   ├── 2001_2002_control8.txt
+│   │   │   ├── 2001_2002_control9.txt
+│   │   │   ├── 2001_2002_genuine.txt
+│   │   │   ├── 2002_2003_control10.txt
+│   │   │   ├── 2002_2003_control1.txt
+│   │   │   ├── 2002_2003_control2.txt
+│   │   │   ├── 2002_2003_control3.txt
+│   │   │   ├── 2002_2003_control4.txt
+│   │   │   ├── 2002_2003_control5.txt
+│   │   │   ├── 2002_2003_control6.txt
+│   │   │   ├── 2002_2003_control7.txt
+│   │   │   ├── 2002_2003_control8.txt
+│   │   │   ├── 2002_2003_control9.txt
+│   │   │   ├── 2002_2003_genuine.txt
+│   │   │   ├── 2003_2004_control10.txt
+│   │   │   ├── 2003_2004_control1.txt
+│   │   │   ├── 2003_2004_control2.txt
+│   │   │   ├── 2003_2004_control3.txt
+│   │   │   ├── 2003_2004_control4.txt
+│   │   │   ├── 2003_2004_control5.txt
+│   │   │   ├── 2003_2004_control6.txt
+│   │   │   ├── 2003_2004_control7.txt
+│   │   │   ├── 2003_2004_control8.txt
+│   │   │   ├── 2003_2004_control9.txt
+│   │   │   ├── 2003_2004_genuine.txt
+│   │   │   ├── 2004_2005_control10.txt
+│   │   │   ├── 2004_2005_control1.txt
+│   │   │   ├── 2004_2005_control2.txt
+│   │   │   ├── 2004_2005_control3.txt
+│   │   │   ├── 2004_2005_control4.txt
+│   │   │   ├── 2004_2005_control5.txt
+│   │   │   ├── 2004_2005_control6.txt
+│   │   │   ├── 2004_2005_control7.txt
+│   │   │   ├── 2004_2005_control8.txt
+│   │   │   ├── 2004_2005_control9.txt
+│   │   │   ├── 2004_2005_genuine.txt
+│   │   │   ├── 2005_2006_control10.txt
+│   │   │   ├── 2005_2006_control1.txt
+│   │   │   ├── 2005_2006_control2.txt
+│   │   │   ├── 2005_2006_control3.txt
+│   │   │   ├── 2005_2006_control4.txt
+│   │   │   ├── 2005_2006_control5.txt
+│   │   │   ├── 2005_2006_control6.txt
+│   │   │   ├── 2005_2006_control7.txt
+│   │   │   ├── 2005_2006_control8.txt
+│   │   │   ├── 2005_2006_control9.txt
+│   │   │   ├── 2005_2006_genuine.txt
+│   │   │   ├── 2006_2007_control10.txt
+│   │   │   ├── 2006_2007_control1.txt
+│   │   │   ├── 2006_2007_control2.txt
+│   │   │   ├── 2006_2007_control3.txt
+│   │   │   ├── 2006_2007_control4.txt
+│   │   │   ├── 2006_2007_control5.txt
+│   │   │   ├── 2006_2007_control6.txt
+│   │   │   ├── 2006_2007_control7.txt
+│   │   │   ├── 2006_2007_control8.txt
+│   │   │   ├── 2006_2007_control9.txt
+│   │   │   ├── 2006_2007_genuine.txt
+│   │   │   ├── 2007_2008_control10.txt
+│   │   │   ├── 2007_2008_control1.txt
+│   │   │   ├── 2007_2008_control2.txt
+│   │   │   ├── 2007_2008_control3.txt
+│   │   │   ├── 2007_2008_control4.txt
+│   │   │   ├── 2007_2008_control5.txt
+│   │   │   ├── 2007_2008_control6.txt
+│   │   │   ├── 2007_2008_control7.txt
+│   │   │   ├── 2007_2008_control8.txt
+│   │   │   ├── 2007_2008_control9.txt
+│   │   │   ├── 2007_2008_genuine.txt
+│   │   │   ├── 2008_2009_control10.txt
+│   │   │   ├── 2008_2009_control1.txt
+│   │   │   ├── 2008_2009_control2.txt
+│   │   │   ├── 2008_2009_control3.txt
+│   │   │   ├── 2008_2009_control4.txt
+│   │   │   ├── 2008_2009_control5.txt
+│   │   │   ├── 2008_2009_control6.txt
+│   │   │   ├── 2008_2009_control7.txt
+│   │   │   ├── 2008_2009_control8.txt
+│   │   │   ├── 2008_2009_control9.txt
+│   │   │   ├── 2008_2009_genuine.txt
+│   │   │   ├── 2009_2010_control10.txt
+│   │   │   ├── 2009_2010_control1.txt
+│   │   │   ├── 2009_2010_control2.txt
+│   │   │   ├── 2009_2010_control3.txt
+│   │   │   ├── 2009_2010_control4.txt
+│   │   │   ├── 2009_2010_control5.txt
+│   │   │   ├── 2009_2010_control6.txt
+│   │   │   ├── 2009_2010_control7.txt
+│   │   │   ├── 2009_2010_control8.txt
+│   │   │   ├── 2009_2010_control9.txt
+│   │   │   ├── 2009_2010_genuine.txt
+│   │   │   ├── 2010_2011_control10.txt
+│   │   │   ├── 2010_2011_control1.txt
+│   │   │   ├── 2010_2011_control2.txt
+│   │   │   ├── 2010_2011_control3.txt
+│   │   │   ├── 2010_2011_control4.txt
+│   │   │   ├── 2010_2011_control5.txt
+│   │   │   ├── 2010_2011_control6.txt
+│   │   │   ├── 2010_2011_control7.txt
+│   │   │   ├── 2010_2011_control8.txt
+│   │   │   ├── 2010_2011_control9.txt
+│   │   │   ├── 2010_2011_genuine.txt
+│   │   │   ├── 2011_2012_control10.txt
+│   │   │   ├── 2011_2012_control1.txt
+│   │   │   ├── 2011_2012_control2.txt
+│   │   │   ├── 2011_2012_control3.txt
+│   │   │   ├── 2011_2012_control4.txt
+│   │   │   ├── 2011_2012_control5.txt
+│   │   │   ├── 2011_2012_control6.txt
+│   │   │   ├── 2011_2012_control7.txt
+│   │   │   ├── 2011_2012_control8.txt
+│   │   │   ├── 2011_2012_control9.txt
+│   │   │   ├── 2011_2012_genuine.txt
+│   │   │   ├── 2012_2013_control10.txt
+│   │   │   ├── 2012_2013_control1.txt
+│   │   │   ├── 2012_2013_control2.txt
+│   │   │   ├── 2012_2013_control3.txt
+│   │   │   ├── 2012_2013_control4.txt
+│   │   │   ├── 2012_2013_control5.txt
+│   │   │   ├── 2012_2013_control6.txt
+│   │   │   ├── 2012_2013_control7.txt
+│   │   │   ├── 2012_2013_control8.txt
+│   │   │   ├── 2012_2013_control9.txt
+│   │   │   ├── 2012_2013_genuine.txt
+│   │   │   ├── 2013_2014_control10.txt
+│   │   │   ├── 2013_2014_control1.txt
+│   │   │   ├── 2013_2014_control2.txt
+│   │   │   ├── 2013_2014_control3.txt
+│   │   │   ├── 2013_2014_control4.txt
+│   │   │   ├── 2013_2014_control5.txt
+│   │   │   ├── 2013_2014_control6.txt
+│   │   │   ├── 2013_2014_control7.txt
+│   │   │   ├── 2013_2014_control8.txt
+│   │   │   ├── 2013_2014_control9.txt
+│   │   │   ├── 2013_2014_genuine.txt
+│   │   │   ├── 2014_2015_control10.txt
+│   │   │   ├── 2014_2015_control1.txt
+│   │   │   ├── 2014_2015_control2.txt
+│   │   │   ├── 2014_2015_control3.txt
+│   │   │   ├── 2014_2015_control4.txt
+│   │   │   ├── 2014_2015_control5.txt
+│   │   │   ├── 2014_2015_control6.txt
+│   │   │   ├── 2014_2015_control7.txt
+│   │   │   ├── 2014_2015_control8.txt
+│   │   │   ├── 2014_2015_control9.txt
+│   │   │   ├── 2014_2015_genuine.txt
+│   │   │   ├── 2015_2016_control10.txt
+│   │   │   ├── 2015_2016_control1.txt
+│   │   │   ├── 2015_2016_control2.txt
+│   │   │   ├── 2015_2016_control3.txt
+│   │   │   ├── 2015_2016_control4.txt
+│   │   │   ├── 2015_2016_control5.txt
+│   │   │   ├── 2015_2016_control6.txt
+│   │   │   ├── 2015_2016_control7.txt
+│   │   │   ├── 2015_2016_control8.txt
+│   │   │   ├── 2015_2016_control9.txt
+│   │   │   ├── 2015_2016_genuine.txt
+│   │   │   ├── 2016_2017_control10.txt
+│   │   │   ├── 2016_2017_control1.txt
+│   │   │   ├── 2016_2017_control2.txt
+│   │   │   ├── 2016_2017_control3.txt
+│   │   │   ├── 2016_2017_control4.txt
+│   │   │   ├── 2016_2017_control5.txt
+│   │   │   ├── 2016_2017_control6.txt
+│   │   │   ├── 2016_2017_control7.txt
+│   │   │   ├── 2016_2017_control8.txt
+│   │   │   ├── 2016_2017_control9.txt
+│   │   │   ├── 2016_2017_genuine.txt
+│   │   │   ├── 2017_2018_control10.txt
+│   │   │   ├── 2017_2018_control1.txt
+│   │   │   ├── 2017_2018_control2.txt
+│   │   │   ├── 2017_2018_control3.txt
+│   │   │   ├── 2017_2018_control4.txt
+│   │   │   ├── 2017_2018_control5.txt
+│   │   │   ├── 2017_2018_control6.txt
+│   │   │   ├── 2017_2018_control7.txt
+│   │   │   ├── 2017_2018_control8.txt
+│   │   │   ├── 2017_2018_control9.txt
+│   │   │   ├── 2017_2018_genuine.txt
+│   │   │   ├── 2018_2019_control10.txt
+│   │   │   ├── 2018_2019_control1.txt
+│   │   │   ├── 2018_2019_control2.txt
+│   │   │   ├── 2018_2019_control3.txt
+│   │   │   ├── 2018_2019_control4.txt
+│   │   │   ├── 2018_2019_control5.txt
+│   │   │   ├── 2018_2019_control6.txt
+│   │   │   ├── 2018_2019_control7.txt
+│   │   │   ├── 2018_2019_control8.txt
+│   │   │   ├── 2018_2019_control9.txt
+│   │   │   ├── 2018_2019_genuine.txt
+│   │   │   ├── 2019_2020_control10.txt
+│   │   │   ├── 2019_2020_control1.txt
+│   │   │   ├── 2019_2020_control2.txt
+│   │   │   ├── 2019_2020_control3.txt
+│   │   │   ├── 2019_2020_control4.txt
+│   │   │   ├── 2019_2020_control5.txt
+│   │   │   ├── 2019_2020_control6.txt
+│   │   │   ├── 2019_2020_control7.txt
+│   │   │   ├── 2019_2020_control8.txt
+│   │   │   ├── 2019_2020_control9.txt
+│   │   │   ├── 2019_2020_genuine.txt
+│   │   │   ├── 2020_2021_control10.txt
+│   │   │   ├── 2020_2021_control1.txt
+│   │   │   ├── 2020_2021_control2.txt
+│   │   │   ├── 2020_2021_control3.txt
+│   │   │   ├── 2020_2021_control4.txt
+│   │   │   ├── 2020_2021_control5.txt
+│   │   │   ├── 2020_2021_control6.txt
+│   │   │   ├── 2020_2021_control7.txt
+│   │   │   ├── 2020_2021_control8.txt
+│   │   │   ├── 2020_2021_control9.txt
+│   │   │   ├── 2020_2021_genuine.txt
+│   │   │   ├── 2021_2022_control10.txt
+│   │   │   ├── 2021_2022_control1.txt
+│   │   │   ├── 2021_2022_control2.txt
+│   │   │   ├── 2021_2022_control3.txt
+│   │   │   ├── 2021_2022_control4.txt
+│   │   │   ├── 2021_2022_control5.txt
+│   │   │   ├── 2021_2022_control6.txt
+│   │   │   ├── 2021_2022_control7.txt
+│   │   │   ├── 2021_2022_control8.txt
+│   │   │   ├── 2021_2022_control9.txt
+│   │   │   └── 2021_2022_genuine.txt
+│   │   └── models
+│   │       ├── 2000
+│   │       ├── 2000.log
+│   │       ├── 2000.w2v
+│   │       ├── 2001
+│   │       ├── 2001.log
+│   │       ├── 2001.w2v
+│   │       ├── 2002
+│   │       ├── 2002.log
+│   │       ├── 2002.w2v
+│   │       ├── 2003
+│   │       ├── 2003.log
+│   │       ├── 2003.w2v
+│   │       ├── 2004
+│   │       ├── 2004.log
+│   │       ├── 2004.w2v
+│   │       ├── 2005
+│   │       ├── 2005.log
+│   │       ├── 2005.w2v
+│   │       ├── 2006
+│   │       ├── 2006.log
+│   │       ├── 2006.w2v
+│   │       ├── 2007
+│   │       ├── 2007.log
+│   │       ├── 2007.w2v
+│   │       ├── 2008
+│   │       ├── 2008.log
+│   │       ├── 2008.syn1neg.npy
+│   │       ├── 2008.w2v
+│   │       ├── 2008.wv.vectors.npy
+│   │       ├── 2009
+│   │       ├── 2009.log
+│   │       ├── 2009.syn1neg.npy
+│   │       ├── 2009.w2v
+│   │       ├── 2009.wv.vectors.npy
+│   │       ├── 2010
+│   │       ├── 2010.log
+│   │       ├── 2010.syn1neg.npy
+│   │       ├── 2010.w2v
+│   │       ├── 2010.wv.vectors.npy
+│   │       ├── 2011
+│   │       ├── 2011.log
+│   │       ├── 2011.syn1neg.npy
+│   │       ├── 2011.w2v
+│   │       ├── 2011.wv.vectors.npy
+│   │       ├── 2012
+│   │       ├── 2012.log
+│   │       ├── 2012.syn1neg.npy
+│   │       ├── 2012.w2v
+│   │       ├── 2012.wv.vectors.npy
+│   │       ├── 2013
+│   │       ├── 2013.log
+│   │       ├── 2013.syn1neg.npy
+│   │       ├── 2013.w2v
+│   │       ├── 2013.wv.vectors.npy
+│   │       ├── 2014
+│   │       ├── 2014.log
+│   │       ├── 2014.syn1neg.npy
+│   │       ├── 2014.w2v
+│   │       ├── 2014.wv.vectors.npy
+│   │       ├── 2015
+│   │       ├── 2015.log
+│   │       ├── 2015.syn1neg.npy
+│   │       ├── 2015.w2v
+│   │       ├── 2015.wv.vectors.npy
+│   │       ├── 2016
+│   │       ├── 2016.log
+│   │       ├── 2016.syn1neg.npy
+│   │       ├── 2016.w2v
+│   │       ├── 2016.wv.vectors.npy
+│   │       ├── 2017
+│   │       ├── 2017.log
+│   │       ├── 2017.syn1neg.npy
+│   │       ├── 2017.w2v
+│   │       ├── 2017.wv.vectors.npy
+│   │       ├── 2018
+│   │       ├── 2018.log
+│   │       ├── 2018.syn1neg.npy
+│   │       ├── 2018.w2v
+│   │       ├── 2018.wv.vectors.npy
+│   │       ├── 2019
+│   │       ├── 2019.log
+│   │       ├── 2019.syn1neg.npy
+│   │       ├── 2019.w2v
+│   │       ├── 2019.wv.vectors.npy
+│   │       ├── 2020
+│   │       ├── 2020.log
+│   │       ├── 2020.syn1neg.npy
+│   │       ├── 2020.w2v
+│   │       ├── 2020.wv.vectors.npy
+│   │       ├── 2021
+│   │       ├── 2021.log
+│   │       ├── 2021.syn1neg.npy
+│   │       ├── 2021.w2v
+│   │       ├── 2021.wv.vectors.npy
+│   │       ├── 2022
+│   │       ├── 2022.log
+│   │       ├── 2022.syn1neg.npy
+│   │       ├── 2022.w2v
+│   │       └── 2022.wv.vectors.npy
+│   ├── toypol-time_bin-radical3
+│   │   ├── cosine_change
+│   │   │   ├── 2003_2007_control10.txt
+│   │   │   ├── 2003_2007_control1.txt
+│   │   │   ├── 2003_2007_control2.txt
+│   │   │   ├── 2003_2007_control3.txt
+│   │   │   ├── 2003_2007_control4.txt
+│   │   │   ├── 2003_2007_control5.txt
+│   │   │   ├── 2003_2007_control6.txt
+│   │   │   ├── 2003_2007_control7.txt
+│   │   │   ├── 2003_2007_control8.txt
+│   │   │   ├── 2003_2007_control9.txt
+│   │   │   ├── 2003_2007_genuine.txt
+│   │   │   ├── 2007_2011_control10.txt
+│   │   │   ├── 2007_2011_control1.txt
+│   │   │   ├── 2007_2011_control2.txt
+│   │   │   ├── 2007_2011_control3.txt
+│   │   │   ├── 2007_2011_control4.txt
+│   │   │   ├── 2007_2011_control5.txt
+│   │   │   ├── 2007_2011_control6.txt
+│   │   │   ├── 2007_2011_control7.txt
+│   │   │   ├── 2007_2011_control8.txt
+│   │   │   ├── 2007_2011_control9.txt
+│   │   │   ├── 2007_2011_genuine.txt
+│   │   │   ├── 2011_2015_control10.txt
+│   │   │   ├── 2011_2015_control1.txt
+│   │   │   ├── 2011_2015_control2.txt
+│   │   │   ├── 2011_2015_control3.txt
+│   │   │   ├── 2011_2015_control4.txt
+│   │   │   ├── 2011_2015_control5.txt
+│   │   │   ├── 2011_2015_control6.txt
+│   │   │   ├── 2011_2015_control7.txt
+│   │   │   ├── 2011_2015_control8.txt
+│   │   │   ├── 2011_2015_control9.txt
+│   │   │   ├── 2011_2015_genuine.txt
+│   │   │   ├── 2015_2019_control10.txt
+│   │   │   ├── 2015_2019_control1.txt
+│   │   │   ├── 2015_2019_control2.txt
+│   │   │   ├── 2015_2019_control3.txt
+│   │   │   ├── 2015_2019_control4.txt
+│   │   │   ├── 2015_2019_control5.txt
+│   │   │   ├── 2015_2019_control6.txt
+│   │   │   ├── 2015_2019_control7.txt
+│   │   │   ├── 2015_2019_control8.txt
+│   │   │   ├── 2015_2019_control9.txt
+│   │   │   └── 2015_2019_genuine.txt
+│   │   ├── cosine_sim
+│   │   │   ├── 2003_2007_control10.txt
+│   │   │   ├── 2003_2007_control1.txt
+│   │   │   ├── 2003_2007_control2.txt
+│   │   │   ├── 2003_2007_control3.txt
+│   │   │   ├── 2003_2007_control4.txt
+│   │   │   ├── 2003_2007_control5.txt
+│   │   │   ├── 2003_2007_control6.txt
+│   │   │   ├── 2003_2007_control7.txt
+│   │   │   ├── 2003_2007_control8.txt
+│   │   │   ├── 2003_2007_control9.txt
+│   │   │   ├── 2003_2007_genuine.txt
+│   │   │   ├── 2007_2011_control10.txt
+│   │   │   ├── 2007_2011_control1.txt
+│   │   │   ├── 2007_2011_control2.txt
+│   │   │   ├── 2007_2011_control3.txt
+│   │   │   ├── 2007_2011_control4.txt
+│   │   │   ├── 2007_2011_control5.txt
+│   │   │   ├── 2007_2011_control6.txt
+│   │   │   ├── 2007_2011_control7.txt
+│   │   │   ├── 2007_2011_control8.txt
+│   │   │   ├── 2007_2011_control9.txt
+│   │   │   ├── 2007_2011_genuine.txt
+│   │   │   ├── 2011_2015_control10.txt
+│   │   │   ├── 2011_2015_control1.txt
+│   │   │   ├── 2011_2015_control2.txt
+│   │   │   ├── 2011_2015_control3.txt
+│   │   │   ├── 2011_2015_control4.txt
+│   │   │   ├── 2011_2015_control5.txt
+│   │   │   ├── 2011_2015_control6.txt
+│   │   │   ├── 2011_2015_control7.txt
+│   │   │   ├── 2011_2015_control8.txt
+│   │   │   ├── 2011_2015_control9.txt
+│   │   │   ├── 2011_2015_genuine.txt
+│   │   │   ├── 2015_2019_control10.txt
+│   │   │   ├── 2015_2019_control1.txt
+│   │   │   ├── 2015_2019_control2.txt
+│   │   │   ├── 2015_2019_control3.txt
+│   │   │   ├── 2015_2019_control4.txt
+│   │   │   ├── 2015_2019_control5.txt
+│   │   │   ├── 2015_2019_control6.txt
+│   │   │   ├── 2015_2019_control7.txt
+│   │   │   ├── 2015_2019_control8.txt
+│   │   │   ├── 2015_2019_control9.txt
+│   │   │   └── 2015_2019_genuine.txt
+│   │   └── models
+│   │       ├── 2003
+│   │       ├── 2003.log
+│   │       ├── 2003.syn1neg.npy
+│   │       ├── 2003.w2v
+│   │       ├── 2003.wv.vectors.npy
+│   │       ├── 2007
+│   │       ├── 2007.log
+│   │       ├── 2007.syn1neg.npy
+│   │       ├── 2007.w2v
+│   │       ├── 2007.wv.vectors.npy
+│   │       ├── 2011
+│   │       ├── 2011.log
+│   │       ├── 2011.syn1neg.npy
+│   │       ├── 2011.w2v
+│   │       ├── 2011.wv.vectors.npy
+│   │       ├── 2015
+│   │       ├── 2015.log
+│   │       ├── 2015.syn1neg.npy
+│   │       ├── 2015.w2v
+│   │       ├── 2015.wv.vectors.npy
+│   │       ├── 2019
+│   │       ├── 2019.log
+│   │       ├── 2019.syn1neg.npy
+│   │       ├── 2019.w2v
+│   │       └── 2019.wv.vectors.npy
+│   └── toypol-yearly-radical3
+│       ├── cosine_change
+│       │   ├── 2004_2005_control10.txt
+│       │   ├── 2004_2005_control1.txt
+│       │   ├── 2004_2005_control2.txt
+│       │   ├── 2004_2005_control3.txt
+│       │   ├── 2004_2005_control4.txt
+│       │   ├── 2004_2005_control5.txt
+│       │   ├── 2004_2005_control6.txt
+│       │   ├── 2004_2005_control7.txt
+│       │   ├── 2004_2005_control8.txt
+│       │   ├── 2004_2005_control9.txt
+│       │   ├── 2004_2005_genuine.txt
+│       │   ├── 2005_2006_control10.txt
+│       │   ├── 2005_2006_control1.txt
+│       │   ├── 2005_2006_control2.txt
+│       │   ├── 2005_2006_control3.txt
+│       │   ├── 2005_2006_control4.txt
+│       │   ├── 2005_2006_control5.txt
+│       │   ├── 2005_2006_control6.txt
+│       │   ├── 2005_2006_control7.txt
+│       │   ├── 2005_2006_control8.txt
+│       │   ├── 2005_2006_control9.txt
+│       │   ├── 2005_2006_genuine.txt
+│       │   ├── 2006_2007_control10.txt
+│       │   ├── 2006_2007_control1.txt
+│       │   ├── 2006_2007_control2.txt
+│       │   ├── 2006_2007_control3.txt
+│       │   ├── 2006_2007_control4.txt
+│       │   ├── 2006_2007_control5.txt
+│       │   ├── 2006_2007_control6.txt
+│       │   ├── 2006_2007_control7.txt
+│       │   ├── 2006_2007_control8.txt
+│       │   ├── 2006_2007_control9.txt
+│       │   ├── 2006_2007_genuine.txt
+│       │   ├── 2007_2008_control10.txt
+│       │   ├── 2007_2008_control1.txt
+│       │   ├── 2007_2008_control2.txt
+│       │   ├── 2007_2008_control3.txt
+│       │   ├── 2007_2008_control4.txt
+│       │   ├── 2007_2008_control5.txt
+│       │   ├── 2007_2008_control6.txt
+│       │   ├── 2007_2008_control7.txt
+│       │   ├── 2007_2008_control8.txt
+│       │   ├── 2007_2008_control9.txt
+│       │   ├── 2007_2008_genuine.txt
+│       │   ├── 2008_2009_control10.txt
+│       │   ├── 2008_2009_control1.txt
+│       │   ├── 2008_2009_control2.txt
+│       │   ├── 2008_2009_control3.txt
+│       │   ├── 2008_2009_control4.txt
+│       │   ├── 2008_2009_control5.txt
+│       │   ├── 2008_2009_control6.txt
+│       │   ├── 2008_2009_control7.txt
+│       │   ├── 2008_2009_control8.txt
+│       │   ├── 2008_2009_control9.txt
+│       │   ├── 2008_2009_genuine.txt
+│       │   ├── 2009_2010_control10.txt
+│       │   ├── 2009_2010_control1.txt
+│       │   ├── 2009_2010_control2.txt
+│       │   ├── 2009_2010_control3.txt
+│       │   ├── 2009_2010_control4.txt
+│       │   ├── 2009_2010_control5.txt
+│       │   ├── 2009_2010_control6.txt
+│       │   ├── 2009_2010_control7.txt
+│       │   ├── 2009_2010_control8.txt
+│       │   ├── 2009_2010_control9.txt
+│       │   ├── 2009_2010_genuine.txt
+│       │   ├── 2010_2011_control10.txt
+│       │   ├── 2010_2011_control1.txt
+│       │   ├── 2010_2011_control2.txt
+│       │   ├── 2010_2011_control3.txt
+│       │   ├── 2010_2011_control4.txt
+│       │   ├── 2010_2011_control5.txt
+│       │   ├── 2010_2011_control6.txt
+│       │   ├── 2010_2011_control7.txt
+│       │   ├── 2010_2011_control8.txt
+│       │   ├── 2010_2011_control9.txt
+│       │   ├── 2010_2011_genuine.txt
+│       │   ├── 2011_2012_control10.txt
+│       │   ├── 2011_2012_control1.txt
+│       │   ├── 2011_2012_control2.txt
+│       │   ├── 2011_2012_control3.txt
+│       │   ├── 2011_2012_control4.txt
+│       │   ├── 2011_2012_control5.txt
+│       │   ├── 2011_2012_control6.txt
+│       │   ├── 2011_2012_control7.txt
+│       │   ├── 2011_2012_control8.txt
+│       │   ├── 2011_2012_control9.txt
+│       │   ├── 2011_2012_genuine.txt
+│       │   ├── 2012_2013_control10.txt
+│       │   ├── 2012_2013_control1.txt
+│       │   ├── 2012_2013_control2.txt
+│       │   ├── 2012_2013_control3.txt
+│       │   ├── 2012_2013_control4.txt
+│       │   ├── 2012_2013_control5.txt
+│       │   ├── 2012_2013_control6.txt
+│       │   ├── 2012_2013_control7.txt
+│       │   ├── 2012_2013_control8.txt
+│       │   ├── 2012_2013_control9.txt
+│       │   ├── 2012_2013_genuine.txt
+│       │   ├── 2013_2014_control10.txt
+│       │   ├── 2013_2014_control1.txt
+│       │   ├── 2013_2014_control2.txt
+│       │   ├── 2013_2014_control3.txt
+│       │   ├── 2013_2014_control4.txt
+│       │   ├── 2013_2014_control5.txt
+│       │   ├── 2013_2014_control6.txt
+│       │   ├── 2013_2014_control7.txt
+│       │   ├── 2013_2014_control8.txt
+│       │   ├── 2013_2014_control9.txt
+│       │   └── 2013_2014_genuine.txt
+│       ├── cosine_sim
+│       │   ├── 2004_2005_control10.txt
+│       │   ├── 2004_2005_control1.txt
+│       │   ├── 2004_2005_control2.txt
+│       │   ├── 2004_2005_control3.txt
+│       │   ├── 2004_2005_control4.txt
+│       │   ├── 2004_2005_control5.txt
+│       │   ├── 2004_2005_control6.txt
+│       │   ├── 2004_2005_control7.txt
+│       │   ├── 2004_2005_control8.txt
+│       │   ├── 2004_2005_control9.txt
+│       │   ├── 2004_2005_genuine.txt
+│       │   ├── 2005_2006_control10.txt
+│       │   ├── 2005_2006_control1.txt
+│       │   ├── 2005_2006_control2.txt
+│       │   ├── 2005_2006_control3.txt
+│       │   ├── 2005_2006_control4.txt
+│       │   ├── 2005_2006_control5.txt
+│       │   ├── 2005_2006_control6.txt
+│       │   ├── 2005_2006_control7.txt
+│       │   ├── 2005_2006_control8.txt
+│       │   ├── 2005_2006_control9.txt
+│       │   ├── 2005_2006_genuine.txt
+│       │   ├── 2006_2007_control10.txt
+│       │   ├── 2006_2007_control1.txt
+│       │   ├── 2006_2007_control2.txt
+│       │   ├── 2006_2007_control3.txt
+│       │   ├── 2006_2007_control4.txt
+│       │   ├── 2006_2007_control5.txt
+│       │   ├── 2006_2007_control6.txt
+│       │   ├── 2006_2007_control7.txt
+│       │   ├── 2006_2007_control8.txt
+│       │   ├── 2006_2007_control9.txt
+│       │   ├── 2006_2007_genuine.txt
+│       │   ├── 2007_2008_control10.txt
+│       │   ├── 2007_2008_control1.txt
+│       │   ├── 2007_2008_control2.txt
+│       │   ├── 2007_2008_control3.txt
+│       │   ├── 2007_2008_control4.txt
+│       │   ├── 2007_2008_control5.txt
+│       │   ├── 2007_2008_control6.txt
+│       │   ├── 2007_2008_control7.txt
+│       │   ├── 2007_2008_control8.txt
+│       │   ├── 2007_2008_control9.txt
+│       │   ├── 2007_2008_genuine.txt
+│       │   ├── 2008_2009_control10.txt
+│       │   ├── 2008_2009_control1.txt
+│       │   ├── 2008_2009_control2.txt
+│       │   ├── 2008_2009_control3.txt
+│       │   ├── 2008_2009_control4.txt
+│       │   ├── 2008_2009_control5.txt
+│       │   ├── 2008_2009_control6.txt
+│       │   ├── 2008_2009_control7.txt
+│       │   ├── 2008_2009_control8.txt
+│       │   ├── 2008_2009_control9.txt
+│       │   ├── 2008_2009_genuine.txt
+│       │   ├── 2009_2010_control10.txt
+│       │   ├── 2009_2010_control1.txt
+│       │   ├── 2009_2010_control2.txt
+│       │   ├── 2009_2010_control3.txt
+│       │   ├── 2009_2010_control4.txt
+│       │   ├── 2009_2010_control5.txt
+│       │   ├── 2009_2010_control6.txt
+│       │   ├── 2009_2010_control7.txt
+│       │   ├── 2009_2010_control8.txt
+│       │   ├── 2009_2010_control9.txt
+│       │   ├── 2009_2010_genuine.txt
+│       │   ├── 2010_2011_control10.txt
+│       │   ├── 2010_2011_control1.txt
+│       │   ├── 2010_2011_control2.txt
+│       │   ├── 2010_2011_control3.txt
+│       │   ├── 2010_2011_control4.txt
+│       │   ├── 2010_2011_control5.txt
+│       │   ├── 2010_2011_control6.txt
+│       │   ├── 2010_2011_control7.txt
+│       │   ├── 2010_2011_control8.txt
+│       │   ├── 2010_2011_control9.txt
+│       │   ├── 2010_2011_genuine.txt
+│       │   ├── 2011_2012_control10.txt
+│       │   ├── 2011_2012_control1.txt
+│       │   ├── 2011_2012_control2.txt
+│       │   ├── 2011_2012_control3.txt
+│       │   ├── 2011_2012_control4.txt
+│       │   ├── 2011_2012_control5.txt
+│       │   ├── 2011_2012_control6.txt
+│       │   ├── 2011_2012_control7.txt
+│       │   ├── 2011_2012_control8.txt
+│       │   ├── 2011_2012_control9.txt
+│       │   ├── 2011_2012_genuine.txt
+│       │   ├── 2012_2013_control10.txt
+│       │   ├── 2012_2013_control1.txt
+│       │   ├── 2012_2013_control2.txt
+│       │   ├── 2012_2013_control3.txt
+│       │   ├── 2012_2013_control4.txt
+│       │   ├── 2012_2013_control5.txt
+│       │   ├── 2012_2013_control6.txt
+│       │   ├── 2012_2013_control7.txt
+│       │   ├── 2012_2013_control8.txt
+│       │   ├── 2012_2013_control9.txt
+│       │   ├── 2012_2013_genuine.txt
+│       │   ├── 2013_2014_control10.txt
+│       │   ├── 2013_2014_control1.txt
+│       │   ├── 2013_2014_control2.txt
+│       │   ├── 2013_2014_control3.txt
+│       │   ├── 2013_2014_control4.txt
+│       │   ├── 2013_2014_control5.txt
+│       │   ├── 2013_2014_control6.txt
+│       │   ├── 2013_2014_control7.txt
+│       │   ├── 2013_2014_control8.txt
+│       │   ├── 2013_2014_control9.txt
+│       │   └── 2013_2014_genuine.txt
+│       └── models
+│           ├── 2004
+│           ├── 2004.log
+│           ├── 2004.w2v
+│           ├── 2005
+│           ├── 2005.log
+│           ├── 2005.w2v
+│           ├── 2006
+│           ├── 2006.log
+│           ├── 2006.w2v
+│           ├── 2007
+│           ├── 2007.log
+│           ├── 2007.w2v
+│           ├── 2008
+│           ├── 2008.log
+│           ├── 2008.w2v
+│           ├── 2009
+│           ├── 2009.log
+│           ├── 2009.w2v
+│           ├── 2010
+│           ├── 2010.log
+│           ├── 2010.w2v
+│           ├── 2011
+│           ├── 2011.log
+│           ├── 2011.w2v
+│           ├── 2012
+│           ├── 2012.log
+│           ├── 2012.w2v
+│           ├── 2013
+│           ├── 2013.log
+│           ├── 2013.w2v
+│           ├── 2014
+│           ├── 2014.log
+│           └── 2014.w2v
+├── scratch
+│   └── fb-pt-radical3
+│       └── files
+│           ├── 2000.txt
+│           ├── 2001.txt
+│           ├── 2002.txt
+│           ├── 2003.txt
+│           ├── 2004.txt
+│           ├── 2005.txt
+│           ├── 2006.txt
+│           ├── 2007.txt
+│           ├── 2008.txt
+│           ├── 2009.txt
+│           ├── 2010.txt
+│           ├── 2011.txt
+│           ├── 2012.txt
+│           ├── 2013.txt
+│           ├── 2014.txt
+│           ├── 2015.txt
+│           ├── 2016.txt
+│           ├── 2017.txt
+│           ├── 2018.txt
+│           ├── 2019.txt
+│           ├── 2020.txt
+│           ├── 2021.txt
+│           └── 2022.txt
+└── tmp
+    ├── data
+    ├── models
+    └── vocab
 
-2 directories, 20 files
+43 directories, 1178 files

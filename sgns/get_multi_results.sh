@@ -26,18 +26,17 @@ out_dir="../../dw_results"
 
 echo "=================="
 echo "fb_pol-yearly-full"
-python create_df_mb.py "${rootdir}/corpora/fb_pol/yearly/radical3" "${rootdir}/experiment/fb_pol-yearly-radical3" "${out_dir}/fb_pol-yearly-radical3-full.csv"
+python create_df_mb.py "${rootdir}/corpora/fb_pol/yearly/radical3" "${rootdir}/experiment/fb_pol-yearly-radical3" "${out_dir}/fb_pol-yearly-radical3-full.csv" --rel_freq
 echo ""
 echo "========================"
 echo "fb_pol-yearly-restricted"
-python create_df_mb.py "${rootdir}/corpora/fb_pol/yearly/radical3" "${rootdir}/experiment/fb_pol-yearly-radical3" "${out_dir}/fb_pol-yearly-radical3-restricted.csv" -r "../data/utils/dwts.txt"
+python create_df_mb.py "${rootdir}/corpora/fb_pol/yearly/radical3" "${rootdir}/experiment/fb_pol-yearly-radical3" "${out_dir}/fb_pol-yearly-radical3-restricted.csv" -r "../data/utils/dwts.txt" --rel_freq
 echo ""
 echo "===================="
 echo "fb_pol-time_bin-full"
-python create_df_mb.py "${rootdir}/corpora/fb_pol/time_bin/radical3" "${rootdir}/experiment/fb_pol-time_bin-radical3" "${out_dir}/fb_pol-time_bin-radical3-full.csv"
+python create_df_mb.py "${rootdir}/corpora/fb_pol/time_bin/radical3" "${rootdir}/experiment/fb_pol-time_bin-radical3" "${out_dir}/fb_pol-time_bin-radical3-full.csv" --rel_freq
 echo ""
 echo "=========================="
 echo "fb_pol-time_bin-restricted"
-python create_df_mb.py "${rootdir}/corpora/fb_pol/time_bin/radical3" "${rootdir}/experiment/fb_pol-time_bin-radical3" "${out_dir}/fb_pol-time_bin-radical3-restricted.csv" -r "../data/utils/dwts.txt"
-
+python create_df_mb.py "${rootdir}/corpora/fb_pol/time_bin/radical3" "${rootdir}/experiment/fb_pol-time_bin-radical3" "${out_dir}/fb_pol-time_bin-radical3-restricted.csv" -r "../data/utils/dwts.txt" --rel_freq
 

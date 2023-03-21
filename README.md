@@ -1,3 +1,5 @@
 # dw_change
 
-test
+Repository for thesis project on semantic change and political dog whistles
+
+tbc ...

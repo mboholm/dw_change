@@ -8,9 +8,9 @@ python -c "import gensim; print('GenSim version:', gensim.__version__)"
 
 #glb_dir="/home/max/Corpora/toy_diamat-sample/global"
 
-root_corpus="fb_pol" # fb_pol = Flashback-politik
-time_design="yearly" # yearly vs. time_bin
-pp_version="radical3" # PreProcessed Version
+root_corpus="fb_pol"   # fb_pol = Flashback-politik
+time_design="time_bin" # yearly vs. time_bin
+pp_version="radical3"  # PreProcessed Version
 
 rootdir="/srv/data/gusbohom/root"
 
@@ -23,15 +23,15 @@ sim_dir="${rootdir}/experiment/${root_corpus}-${time_design}-${pp_version}/cosin
 
 ctr_dir="${rootdir}/tmp"
 
-min_count=10
-epch=10  # Noble et al. used 10; a much higher numer might be required to get closer for further progress
-N=10 # no. of controls; Noble et al. used 10
-threads=12 # default = 4 (in Python code); Noble et al. used 12
+min_count=20  # 5 x 4 = 20
+epch=10       # Noble et al. used 10; a much higher numer might be required to get closer for further progress
+N=10          # no. of controls; Noble et al. used 10
+threads=12    # default = 4 (in Python code); Noble et al. used 12
 
 ##  DOUBLE CHECK! ##
-first_year=2000
-last_year=2022
-step=1
+first_year=2003    # e.g. 2000 (yearly); 2003 (time_bin)
+last_year=2022     # e.g. 2022 (yearly); ...
+step=4             # e.g. 1 (yearly); 4 (time_bin)
 ####################
 
 #0. Train global model

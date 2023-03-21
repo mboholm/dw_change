@@ -10,6 +10,7 @@ from pathlib import Path
 from util import load_metric
 import time
 import re
+import json
 
 # OBSERVE!
 #################################
@@ -31,7 +32,7 @@ def checker():
     
     print("In DataFrame", ", ".join(list(hits)))
 
-def main(corpus, measures, file_path,  word_restrictor, min_frq, check):
+def main(corpus, measures, file_path,  word_restrictor, min_frq, do_relative_frequencies, check):
   # main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.check)
     
     if min_frq == None: 
@@ -41,8 +42,8 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, check):
 
     t0 = time.perf_counter()
     print(f"Compiles dataframe from data in")
-    print(corpus)
-    print(measures)
+    print("\t", corpus)
+    print("\t", measures)
     print()
     #print("...", end="\r")
 
@@ -81,7 +82,7 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, check):
         df = df.loc[restriction]
         
         print("Length restricted vocabulary:", len(df))
-        print("Restricted vocabulary:", ", ".join(list(df.index)))
+        print("Restricted vocabulary:", ", ".join(sorted(list(df.index))))
     
     # For frequencies, replace NaN with 0
     df = df.fillna(0)
@@ -100,10 +101,25 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, check):
     # Add Difference in Frequencies
     print("Adding difference in frequencies.")
     for ti, tj in transitions:
-        df[f"dif_{ti}:{tj}"] = df[f"frq_{ti}"] - df[f"frq_{tj}"]
+        df[f"dif_{ti}:{tj}"] = df[f"frq_{tj}"] - df[f"frq_{ti}"]
 
     if check:
         checker()
+
+    # Add relative frequencies
+    if do_relative_frequencies:
+        print("Adding relative frequencies")
+        with open(corpus / "extok_counts.json") as f: # note: assumes Example-Token counts can be found here under this name
+            extok_counts = json.loads(f.read())
+        for year in [str(year) for year in years]: # extok assumes years as strings
+#             print(extok_counts[year]["word_tokens"])
+#             print(df[f"frq_{year}"])
+#             print(df[f"frq_{year}"] / 2)
+            #print(np.array(1)/float(1))
+            df[f"fpm_{year}"] = (df[f"frq_{year}"] / (extok_counts[year]["word_tokens"] * 10^6))
+            # Frequency per milion
+        for ti, tj in transitions:
+            df[f"diffpm_{ti}:{tj}"] = df[f"fpm_{ti}"] - df[f"fpm_{tj}"]
 
     # Add Genuine Change
     print("Adding genuine change.")
@@ -195,6 +211,7 @@ if __name__ == '__main__':
     parser.add_argument("--restrict_words", "-r", help="provide file_path to file with roots to restrict vocabulary")
     parser.add_argument("--min_freq", "-m", type=int, default=5, help="minimum frequency of words' total frequency to consider (deafult = 5)")    
     parser.add_argument("--check", "-c", action="store_true", help="provide this to print out words (index) of df during the process (development)")
+    parser.add_argument("--rel_freq", "-p", action="store_true", help="provide to count and add relative frequencies to dataframe. NOTE: assumes a `extok_counts.json` in `corpus_directory`, where to find token counts.")
 
     args = parser.parse_args()
 
@@ -203,5 +220,5 @@ if __name__ == '__main__':
     else:
         r_words_file = None
 
-    main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.check)    
+    main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.rel_freq, args.check)    
 

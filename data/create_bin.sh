@@ -12,7 +12,9 @@ Help()
    echo "arg2     Directory: bin    (output)"
    echo "arg3     First year"
    echo "arg4     Last year"
-   echo "arg5     Add"
+   echo "arg5     Add. Observe: time_bins are constructed exclusively. E.g. for creating timbins of size = 4, var. Add sould = 3."
+   echo
+   echo "Example: bash create_bin.sh corpora/fb_pol/yearly/radical3/files corpora/fb_pol/time_bin/radical3/files 2003 2022 3"
    echo
 }
 
