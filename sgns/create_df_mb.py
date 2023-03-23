@@ -32,11 +32,14 @@ def checker():
     
     print("In DataFrame", ", ".join(list(hits)))
 
-def main(corpus, measures, file_path,  word_restrictor, min_frq, do_relative_frequencies, check):
+def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_relative_frequencies, check):
   # main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.check)
     
     if min_frq == None: 
         min_frq = 5    
+
+    if min_docf == None:
+        min_docf = 3
 
     global df
 
@@ -94,7 +97,7 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, do_relative_fre
     
     # Clean up table: remove words with total freq <= min freq; remove words with doc frq <= min doc freq (e.g. 3)
     df = df.drop(df[df["frq_tot"] < min_frq].index)
-    df = df.drop(df[df["frq_doc"] < 3].index) # selecting 2 as criterion as no effect; which is strange
+    df = df.drop(df[df["frq_doc"] < min_docf].index) # selecting 2 as criterion as no effect; which is strange
     
     print("Length of reduced vocabulary)", len(df))
 
@@ -209,7 +212,8 @@ if __name__ == '__main__':
     parser.add_argument("measures", type=str, help="measures directory: where to find cosine change and cosine similarity measures")
     parser.add_argument("file_path", type=str, help="file path of output: dataframe (csv)")
     parser.add_argument("--restrict_words", "-r", help="provide file_path to file with roots to restrict vocabulary")
-    parser.add_argument("--min_freq", "-m", type=int, default=5, help="minimum frequency of words' total frequency to consider (deafult = 5)")    
+    parser.add_argument("--min_freq", "-m", type=int, default=5, help="minimum frequency of words' total frequency to consider (default = 5)")
+    parser.add_argument("--min_doc_freq", "-d", type=int, default=3, help="minimum document frequency to consider (default=3)")    
     parser.add_argument("--check", "-c", action="store_true", help="provide this to print out words (index) of df during the process (development)")
     parser.add_argument("--rel_freq", "-p", action="store_true", help="provide to count and add relative frequencies to dataframe. NOTE: assumes a `extok_counts.json` in `corpus_directory`, where to find token counts.")
 
@@ -220,5 +224,5 @@ if __name__ == '__main__':
     else:
         r_words_file = None
 
-    main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.rel_freq, args.check)    
+    main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.min_doc_freq, args.rel_freq, args.check)    
 

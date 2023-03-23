@@ -55,6 +55,7 @@ def cosine_change(wv1, wv2, vocab=None):
         common_vocab = wv1.index_to_key   #mb. ... with this
         vecs1 = wv1.vectors
         vecs2 = wv2.vectors
+        
     distances = angular_distance(vecs1, vecs2)
     return dict(zip(common_vocab, distances))
 

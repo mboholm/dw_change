@@ -123,12 +123,16 @@ def cli(token_counts_file, corpus_file, model_prefix, init_model, min_count,
 #            min_count=min_count, sample=1e-5, ns_exponent=ns_exponent,
 #            alpha=alpha, workers=n_threads)
 
+# MB Gensim 4+ use this:
     model = Word2Vec(vector_size=200, window=5, sg=1, negative=5,
             min_count=min_count, sample=1e-5, ns_exponent=ns_exponent,
             alpha=alpha, workers=n_threads)    
 
     log.info(f"Bulinding vocab with min count {min_count}")
     model.build_vocab_from_freq(token_counts)
+
+    print("---> FROM PYTHON:", "MIN_COUNT", min_count) #MB
+    print("---> FROM PYTHON:", "LEN VOC"  , len(model.wv)) #MB  
 
     corpus_examples, corpus_words =  corpus_counts(corpus_file)       
     log.info(f"Corpus sentences: {corpus_examples}, corpus tokens: {corpus_words}.")  
@@ -143,12 +147,18 @@ def cli(token_counts_file, corpus_file, model_prefix, init_model, min_count,
     # lockf=1.0 means that imported word vectors are trained (=0.0 means frozen)
     if init_model is not None:
         #model.intersect_word2vec_format(init_model, binary=False, lockf=1.0)  # mb commented out
+
         # mb new ideas for gensim 4.0 from: 
         # https://stackoverflow.com/questions/69412142/process-to-intersect-with-pre-trained-word-vectors-with-gensim-4-0-0
         # https://datascience.stackexchange.com/questions/97568/fine-tuning-pre-trained-word2vec-model-with-gensim-4-0
         # https://gist.github.com/kaanakdeniz/6ff7d418333f5aa2fea671b17f75154c
-        model.wv.vectors_lockf = np.ones(len(model.wv))   # mb 
+
+        # MB gensim 4+ use  this:
+        print("---> FROM PYTHON:", "LEN LOCKF", model.wv.vectors_lockf.shape) #MB
+        model.wv.vectors_lockf = np.ones(len(model.wv))   # mb
+        print("---> FROM PYTHON:", "LEN LOCKF POST", model.wv.vectors_lockf.shape) #MB 
         model.wv.intersect_word2vec_format(init_model, binary=False, lockf=1.0)   # mb https://radimrehurek.com/gensim/models/keyedvectors.html#gensim.models.keyedvectors.KeyedVectors
+        print("---> FROM PYTHON:", "LEN VOC POST", len(model.wv)) #MB
 
     callbacks = [AngularChange(stop_threshold, epochs, model_prefix)]
     if save_checkpoints:
