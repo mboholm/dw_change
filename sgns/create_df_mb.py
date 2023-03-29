@@ -32,7 +32,7 @@ def checker():
     
     print("In DataFrame", ", ".join(list(hits)))
 
-def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_relative_frequencies, check):
+def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_relative_frequencies, include_spread, check):
   # main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.check)
     
     if min_frq == None: 
@@ -124,6 +124,27 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
         for ti, tj in transitions:
             df[f"diffpm_{ti}:{tj}"] = df[f"fpm_{ti}"] - df[f"fpm_{tj}"]
 
+    # Add Spread
+    if include_spread:
+        print("Adding Semantic Spread")
+
+        for year in years:
+            c_name = "spr_" + str(year)
+            df[c_name] = pd.Series(load_metric(measures / f"spread/{year}.txt")) 
+
+        for ti, tj in transitions:
+            df[f"sprdif_{ti}:{tj}"] = df[f"spr_{tj}"] - df[f"spr_{ti}"]
+
+        for i, year in enumerate(years[2:], start=2):
+
+            df[f"anospr_{year}"] = (df[f"spr_{year}"] - df.loc[:, f"spr_{first_year}":f"spr_{years[i-1]}"].mean(axis=1)) / df.loc[:, f"spr_{first_year}":f"spr_{years[i-1]}"].std(axis=1)
+
+            # Anomaly detection:
+            # (start from third year) for every year y; 
+            # spread of y = s_y; 
+            # standard deviation of the years up to y = std_Y<y; 
+            # Question: how many standard deviations (std_Y<y) is s_y?
+
     # Add Genuine Change
     print("Adding genuine change.")
     for file in os.listdir(measures / "cosine_change"):
@@ -148,6 +169,9 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
         control = pd.concat(control, axis=1)
         df[f"mccc_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Change Controle
         df[f"stdc_{ti}:{tj}"] = control.std(axis=1, ddof=1)
+
+        # MB. Note: as it should be, the mean is calculated such that missing 
+        #     measures for transitions are not part of the calculations
 
     if check:
         checker()
@@ -216,6 +240,7 @@ if __name__ == '__main__':
     parser.add_argument("--min_doc_freq", "-d", type=int, default=3, help="minimum document frequency to consider (default=3)")    
     parser.add_argument("--check", "-c", action="store_true", help="provide this to print out words (index) of df during the process (development)")
     parser.add_argument("--rel_freq", "-p", action="store_true", help="provide to count and add relative frequencies to dataframe. NOTE: assumes a `extok_counts.json` in `corpus_directory`, where to find token counts.")
+    parser.add_argument("--include_spread", "-s", action="store_true", help="provide to add spread calculations. NOTE: assumes a `spread` dir in `measurse` dir.")
 
     args = parser.parse_args()
 
@@ -224,5 +249,15 @@ if __name__ == '__main__':
     else:
         r_words_file = None
 
-    main(Path(args.corpus), Path(args.measures), Path(args.file_path), r_words_file, args.min_freq, args.min_doc_freq, args.rel_freq, args.check)    
+    main(
+        corpus=Path(args.corpus), 
+        measures=Path(args.measures), 
+        file_path=Path(args.file_path), 
+        word_restrictor=r_words_file, 
+        min_frq=args.min_freq, 
+        min_docf=args.min_doc_freq, 
+        do_relative_frequencies=args.rel_freq, 
+        include_spread= args.include_spread, 
+        check=args.check
+        )    
 

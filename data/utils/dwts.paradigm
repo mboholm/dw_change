@@ -34,8 +34,9 @@ globalist -> N1C -> \b(globalist)((?!\b|en|er|s\b|isk).*?)\b -> globalistX
 globalist -> A1 -> \bglobalistisk(|a|t)\b -> globalistisk
 
 # hjälpa_på_plats
-hjälpa.*? på plats -> V1 -> \bhjälp(a|er|te|t|ande)\b på plats\b -> hjälpa_på_plats # ?hjälpande på plats; hjälpa på platsen?
-hjälpa.* på plats -> V2 -> \bhjälp(a|er|te|t|ande)\b .*? på plats\b -> hjälpa_X_på_plats # !?
+hjälpa.*? på plats -> V1 -> \bhjälp(a|er|te|t|s|ande)\b på plats\b -> hjälpa_på_plats # ?hjälpande på plats; hjälpa på platsen?
+hjälpa.* på plats -> V2 -> \bhjälp(a|er|te|t|s|ande)\b .*? på plats\b -> hjälpa_X_på_plats # !?
+# Passive "s" added 29-03-2023
 
 # självständig_utrikespolitik
 självständiga? utrikespolitik -> P1 -> \bsjälvständiga? utrikespolitik(|en|s|ens|er|ers|ernas)\b -> självständig_utrikespolitik

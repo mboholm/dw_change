@@ -22,7 +22,7 @@ def count_save(corpus, output_file):
                 counter[year]["word_tokens"] += word_count
         
         with open(output_file, mode="w") as f:
-            f.write(json.dumps(counter))
+            f.write(json.dumps(counter, sort_keys=True, indent=4))
 
     print()
     print("Done!")
