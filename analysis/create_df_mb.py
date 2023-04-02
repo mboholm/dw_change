@@ -90,21 +90,21 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
     # For frequencies, replace NaN with 0
     df = df.fillna(0)
     # Add frq_tot
-    df["frq_tot"] = df.loc[:, f"frq_{first_year}":f"frq_{last_year}"].sum(axis=1) # axis???
+    df["tot_frq"] = df.loc[:, f"frq_{first_year}":f"frq_{last_year}"].sum(axis=1) # axis???
     # Add document frequency
     document_frequency = df.loc[:, f"frq_{first_year}":f"frq_{last_year}"] > 0 # True if frq > 0 else False
-    df["frq_doc"] = document_frequency.sum(axis=1)
+    df["doc_frq"] = document_frequency.sum(axis=1)
     
     # Clean up table: remove words with total freq <= min freq; remove words with doc frq <= min doc freq (e.g. 3)
-    df = df.drop(df[df["frq_tot"] < min_frq].index)
-    df = df.drop(df[df["frq_doc"] < min_docf].index) # selecting 2 as criterion as no effect; which is strange
+    df = df.drop(df[df["tot_frq"] < min_frq].index)
+    df = df.drop(df[df["doc_frq"] < min_docf].index) # selecting 2 as criterion as no effect; which is strange
     
     print("Length of reduced vocabulary)", len(df))
 
     # Add Difference in Frequencies
     print("Adding difference in frequencies.")
     for ti, tj in transitions:
-        df[f"dif_{ti}:{tj}"] = df[f"frq_{tj}"] - df[f"frq_{ti}"]
+        df[f"diffrq_{ti}:{tj}"] = df[f"frq_{tj}"] - df[f"frq_{ti}"]
 
     if check:
         checker()
@@ -133,7 +133,7 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
             df[c_name] = pd.Series(load_metric(measures / f"spread/{year}.txt")) 
 
         for ti, tj in transitions:
-            df[f"sprdif_{ti}:{tj}"] = df[f"spr_{tj}"] - df[f"spr_{ti}"]
+            df[f"difspr_{ti}:{tj}"] = df[f"spr_{tj}"] - df[f"spr_{ti}"]
 
         for i, year in enumerate(years[2:], start=2):
 
