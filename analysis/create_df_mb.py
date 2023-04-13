@@ -51,14 +51,14 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
     #print("...", end="\r")
 
     # Setup
-    years = [int(file.strip(".txt")) for file in os.listdir(corpus/"files")]
+    years = [int(file.replace(".txt", "")) for file in os.listdir(corpus/"files")]
     years.sort()
     first_year = min(years)
     last_year  = max(years)
     
     transitions = [(ti, years[i + 1]) for i, ti in enumerate(years[:-1])]
 
-    c_numbers = set(int(n) for n in ["".join([ch for ch in file.strip(".txt").split("_")[-1] if ch.isdigit()]) for file in os.listdir(measures / "cosine_change") if "control" in file]) # to find the range of control measures
+    c_numbers = set(int(n) for n in ["".join([ch for ch in file.replace(".txt", "").split("_")[-1] if ch.isdigit()]) for file in os.listdir(measures / "cosine_change") if "control" in file]) # to find the range of control measures
     c_span = min(c_numbers), max(c_numbers)
 
     # Add Word Frequencies
@@ -148,8 +148,8 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
     # Add Genuine Change
     print("Adding genuine change.")
     for file in os.listdir(measures / "cosine_change"):
-        if file.strip(".txt").endswith("genuine"):
-            c_name = file.strip("_genuine.txt").replace("_", ":")
+        if file.replace(".txt", "").endswith("genuine"):
+            c_name = file.replace("_genuine.txt", "").replace("_", ":")
             c_name = "gch_" + c_name # Genuine Cosine Change
             df[c_name] = pd.Series(load_metric(measures / f"cosine_change/{file}"))
 
@@ -187,8 +187,8 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
     # Add Genuine Similarity
     print("Adding genuine similarity.")
     for file in os.listdir(measures / "cosine_sim"):
-        if file.strip(".txt").endswith("genuine"):
-            c_name = file.strip("_genuine.txt").replace("_", ":")
+        if file.replace(".txt", "").endswith("genuine"):
+            c_name = file.replace("_genuine.txt", "").replace("_", ":")
             c_name = "gsim_" + c_name # Genuine Cosine Similarity
             df[c_name] = pd.Series(load_metric(measures / f"cosine_sim/{file}"))
 
@@ -240,7 +240,7 @@ if __name__ == '__main__':
     parser.add_argument("--min_doc_freq", "-d", type=int, default=3, help="minimum document frequency to consider (default=3)")    
     parser.add_argument("--check", "-c", action="store_true", help="provide this to print out words (index) of df during the process (development)")
     parser.add_argument("--rel_freq", "-p", action="store_true", help="provide to count and add relative frequencies to dataframe. NOTE: assumes a `extok_counts.json` in `corpus_directory`, where to find token counts.")
-    parser.add_argument("--include_spread", "-s", action="store_true", help="provide to add spread calculations. NOTE: assumes a `spread` dir in `measurse` dir.")
+    parser.add_argument("--include_spread", "-s", action="store_true", help="provide to add spread calculations. NOTE: assumes a `spread` dir in `measure` dir.")
 
     args = parser.parse_args()
 

@@ -106,11 +106,11 @@ def preprocess2(corpus_in, corpus_out, CONFIG):
                 if line.strip("\n") == "":
                     continue
                 
-#                 line = re.sub(r"-+", "", line)
+                line = re.sub(r"-+", "", line)
 #                 line = re.sub(r"\.\.+", "", line)
 #                 line = re.sub(":", "", line)
 #                 line = re.sub(",", "", line)
-#                 line = re.sub(r"  +", "", line)
+                line = re.sub(r"  +", " ", line)
                 
                 # Some language recognition? Only include Swedish
                 

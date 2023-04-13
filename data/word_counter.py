@@ -19,6 +19,8 @@ def read_paradigm(file_path):
 
 def raw2lem(string, paradigm_path):
 
+    string = string.replace("-", "") # Obs!
+
     for _, pos, regex, lemma in read_paradigm(paradigm_path):
         regex  = re.compile(regex)
         string = re.sub(regex, f"{pos}_{lemma}", string)
@@ -36,6 +38,9 @@ def count_save(corpus, output_dir, spec_file, lemmatizer, min_count, column):
         word_counter = Counter()
         with open(corpus / file) as f:
             for line in f:
+
+                if line.strip("\n") == "":
+                    continue
 
                 if column != None:
                     line = line.split("\t")[column]

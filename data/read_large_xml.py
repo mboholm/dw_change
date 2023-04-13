@@ -52,11 +52,11 @@ def clean_up(directory):
 def preprocess(example,
                remove_stopwords = False,
                stopwords = None,
-               remove_numbers = True,
+               remove_numbers = False,
                remove_urls = True,
-               remove_punctuations = True,
+               remove_punctuations = False,
                min_tok_utterances = None,
-               lower = True):
+               lower = False):
     """ 
     Preprocess a list of words and returns a string.
     """

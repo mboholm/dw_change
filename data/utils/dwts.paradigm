@@ -17,6 +17,7 @@ förortsgäng -> N1C -> \b(förortsgäng)s?((?!\b|et|en|s\b).*?)\b -> förortsg�
 
 # berika
 berika -> N1 -> \bberikar(e|en|na|es|ens|nas)\b -> berikare
+#berika -> N2 -> \berikning(|en|ar|arna|s|ens|ars|arnas)\b -> berikning # OBS! Can be added! (13-04-2023)
 berika -> N1C -> \b(berikar)((?!\b|e\b|en|na|es).*?)\b -> berikareX
 berika -> V1 -> \bberik(a|ar|ad|ade|at|ande|as|ats|ades)\b -> berika # incl. particip
 
@@ -31,11 +32,11 @@ ordning och reda i flyktingpolitiken -> P1 -> ordning och reda i flyktingpolitik
 # globalist
 globalist -> N1 -> \bglobalist(|en|er|erna|s|ens|ers|ernas)\b -> globalist
 globalist -> N1C -> \b(globalist)((?!\b|en|er|s\b|isk).*?)\b -> globalistX
-globalist -> A1 -> \bglobalistisk(|a|t)\b -> globalistisk
+globalist -> A1 -> \bglobalistisk(|a|t|e)\b -> globalistisk
 
 # hjälpa_på_plats
-hjälpa.*? på plats -> V1 -> \bhjälp(a|er|te|t|s|ande)\b på plats\b -> hjälpa_på_plats # ?hjälpande på plats; hjälpa på platsen?
-hjälpa.* på plats -> V2 -> \bhjälp(a|er|te|t|s|ande)\b .*? på plats\b -> hjälpa_X_på_plats # !?
+hjälpa.*? på plats -> V1 -> \bhjälp(a|er|te|t|as|ande)\b på plats\b -> hjälpa_på_plats # ?hjälpande på plats; hjälpa på platsen?
+hjälpa.* på plats -> V2 -> \bhjälp(a|er|te|t|as|ande)\b .*? på plats\b -> hjälpa_X_på_plats # !?
 # Passive "s" added 29-03-2023
 
 # självständig_utrikespolitik
