@@ -27,7 +27,7 @@ def raw2lem(string, paradigm_path):
 
     return string
 
-def count_save(corpus, output_dir, spec_file, lemmatizer, min_count, column):
+def count_save(corpus, output_dir, spec_file, lemmatizer, min_count, column, column_separator):
 
     files = sorted(os.listdir(corpus))
     if spec_file != None:
@@ -44,6 +44,9 @@ def count_save(corpus, output_dir, spec_file, lemmatizer, min_count, column):
 
                 if column != None:
                     line = line.split("\t")[column]
+
+                if column_separator != None:
+                    line = " ".join((re.split(re.compile(f"{column_separator} ?"), line)))
 
                 if lemmatizer != None:
                     line = raw2lem(line, lemmatizer)
@@ -62,14 +65,17 @@ def count_save(corpus, output_dir, spec_file, lemmatizer, min_count, column):
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="""
+        This program count words in files of a corpus (directory). In file with columns separated by tab provide column to consider. Note the following usage to handle word counts of BERT context files: python word_counter.py corpus vocab --column 0 --col_sep ;
+        """)
     parser.add_argument("corpus", type=str, help="path to corpus to be counted")
     parser.add_argument("out_dir", type=str, help="directory for results")
     parser.add_argument("--min_count", "-m", type=str, default=None, help="provide this for minimum count")
     parser.add_argument("--file", "-f", type=str, default=None, help="provide this for only analysing a specific file in corpus dir")
     parser.add_argument("--lemmatizer", "-l", type=str, help="provide link to .paradigm file to lemmatize tokens")
     parser.add_argument("--column", "-c", type=int, help="if data contains multiple columns, provide to select column to be considered (start from 0)")
+    parser.add_argument("--col_sep", type=str, help="provide separator for splitting column (e.g. V1_berika; N1_kulturberikare in column 0)")
 
     args = parser.parse_args()
     
-    count_save(Path(args.corpus), Path(args.out_dir), args.file, args.lemmatizer, args.min_count, args.column)
+    count_save(Path(args.corpus), Path(args.out_dir), args.file, args.lemmatizer, args.min_count, args.column, args.col_sep)

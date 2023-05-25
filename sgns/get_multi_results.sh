@@ -24,7 +24,9 @@
 #rootdir="/srv/data/gusbohom/root"
 rootdir="/home/max"
 crp_yly="Corpora/flashback-pol-time/yearly/fb-pt-radical3"
+crp_tbn="Corpora/flashback-pol-time/time_bin/fb-pt-radical3"
 exp_yly="Results/fb_pol-yearly-rad3"
+exp_tbn="Results/fb_pol-time_bin-rad3"
 out_dir="../../dw_results"
 
 echo "=================="
@@ -37,9 +39,9 @@ python ../analysis/create_df_mb.py "${rootdir}/${crp_yly}" "${rootdir}/${exp_yly
 echo ""
 echo "===================="
 echo "fb_pol-time_bin-full"
-#python ../analysis/create_df_mb.py "${rootdir}/corpora/fb_pol/time_bin/radical3" "${rootdir}/experiment/fb_pol-time_bin-radical3" "${out_dir}/fb_pol-time_bin-radical3-full.csv" --rel_freq
+python ../analysis/create_df_mb.py "${rootdir}/${crp_tbn}" "${rootdir}/${exp_tbn}" "${out_dir}/fb_pol-time_bin-radical3-full.csv" --rel_freq
 echo ""
 echo "=========================="
 echo "fb_pol-time_bin-restricted"
-#python ../analysis/create_df_mb.py "${rootdir}/corpora/fb_pol/time_bin/radical3" "${rootdir}/experiment/fb_pol-time_bin-radical3" "${out_dir}/fb_pol-time_bin-radical3-restricted.csv" -r "../data/utils/dwts.txt" --rel_freq
+python ../analysis/create_df_mb.py "${rootdir}/${crp_tbn}" "${rootdir}/${exp_tbn}" "${out_dir}/fb_pol-time_bin-radical3-restricted.csv" -r "../data/utils/dwts.txt" --rel_freq
 
