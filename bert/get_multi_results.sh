@@ -17,6 +17,6 @@ for model in "${models[@]}"; do
 	echo "fb_pol-yearly-bert-${model}"
 	python ../analysis/create_df_mb.py "${rootdir}/${yearly}" "${rootdir}/${yrl_exp}/${model}" "${out_dir}/fb_pol-yearly-bert-${model}.csv" --rel_freq --include_spread --restrict_words "../data/utils/dwts.txt"
 		#statements
-	python ../analysis/create_df_mb.py "${rootdir}/${time_bin}" "${rootdir}/${tbn_exp}/${model}" "${out_dir}/fb_pol-time_bin-bert-${model}.csv" --rel_freq --include_spread --restrict_words "../data/utils/dwts.txt"
+	#python ../analysis/create_df_mb.py "${rootdir}/${time_bin}" "${rootdir}/${tbn_exp}/${model}" "${out_dir}/fb_pol-time_bin-bert-${model}.csv" --rel_freq --include_spread --restrict_words "../data/utils/dwts.txt"
 	echo ""
 done

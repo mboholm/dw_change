@@ -121,7 +121,8 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
             df[f"fpm_{year}"] = (df[f"frq_{year}"] / (extok_counts[year]["word_tokens"] * 10^6))
             # Frequency per milion
         for ti, tj in transitions:
-            df[f"diffpm_{ti}:{tj}"] = df[f"fpm_{ti}"] - df[f"fpm_{tj}"]
+            df[f"diffpm_{ti}:{tj}"] = df[f"fpm_{tj}"] - df[f"fpm_{ti}"] # D = tj - ti, i.e. for D > 1 there is an increase; for D < 1, decrease
+            df[f"divfpm_{ti}:{tj}"] = df[f"fpm_{tj}"] / df[f"fpm_{ti}"] # D = tj / ti, i.e. for D > 1, tj is D times larger than ti (increase); for D < 1, ti is 1/D times smaller than tj (decrease)
 
     # Add Spread
     if include_spread:
@@ -133,6 +134,7 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
 
         for ti, tj in transitions:
             df[f"difspr_{ti}:{tj}"] = df[f"spr_{tj}"] - df[f"spr_{ti}"]
+            df[f"divspr_{ti}:{tj}"] = df[f"spr_{tj}"] / df[f"spr_{ti}"]
 
         for i, year in enumerate(years[2:], start=2):
 
@@ -159,21 +161,50 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
 
         methods = list(jsd_data[terms[0]].keys()) # Note: not all methods are applied for all terms; AC leads to memory issues when applied to too much data
 
-        storage = []
+        storage  = []
+        chi2vals = []
+        pvals    = []
 
         for method in methods:
             for transition in [f"{ui}_{uj}" for ui, uj in transitions]:
-                d = dict()
-                for term in terms:
-                    if method in jsd_data[term]: # Note again: not all methods are applied for all terms; AC leads to memory issues when applied to too much data
-                        if transition in jsd_data[term][method]["jsd"]:
-                            d[term] = jsd_data[term][method]["jsd"][transition]
+                d  = dict()
+                x2 = dict()
+                ps = dict()
 
-                storage.append((method, transition, d))    
+                for term in terms:
+                    if jsd_data[term] != None:
+                        if method in jsd_data[term]: # Note again: not all methods are applied for all terms; AC leads to memory issues when applied to too much data
+                            if transition in jsd_data[term][method]["jsd"]:
+                                d[term] = jsd_data[term][method]["jsd"][transition]
+
+
+                            #print(term, method)
+                            #print(jsd_data[term][method])
+
+                            if transition in jsd_data[term][method]["chi2"]:
+                                x2[term] = jsd_data[term][method]["chi2"][transition]
+
+                            if transition in jsd_data[term][method]["p(chi2)"]:
+                                ps[term] = jsd_data[term][method]["p(chi2)"][transition]
+
+                storage.append((method, transition, d))
+                chi2vals.append((method, transition, x2))
+                pvals.append((method, transition, ps))
 
         for cluster_method, trans, jsd_measures in storage: 
             c_name = cluster_method + "_" + trans.replace("_", ":") # In files transitions are coded with underscore (ui_uj)
             df[c_name] = pd.Series(jsd_measures)
+
+        for cluster_method, trans, x2_measures in chi2vals:
+            c_name = "chisq_" + cluster_method + "_" + trans.replace("_", ":")
+            df[c_name] = pd.Series(x2_measures)
+
+
+        for cluster_method, trans, p_measures in pvals:
+            c_name = "p_" + cluster_method + "_" + trans.replace("_", ":")
+            df[c_name] = pd.Series(p_measures)
+
+
 
     else: # i.e. no cluster mode
         for file in os.listdir(measures / "cosine_change"):

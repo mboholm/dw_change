@@ -16,11 +16,12 @@ out_dir="../../dw_results"
 #	echo "=========================================="
 #	echo "fb_pol-yearly-bert-${model}"
 #	python ../analysis/create_df_mb.py "${rootdir}/${yearly}" "${rootdir}/${yrl_exp}/${model}" "${out_dir}/fb_pol-yearly-bert-${model}.csv" --rel_freq --include_spread --restrict_words "../data/utils/dwts.txt"
-#		#statements
+		#statements
 #	python ../analysis/create_df_mb.py "${rootdir}/${time_bin}" "${rootdir}/${tbn_exp}/${model}" "${out_dir}/fb_pol-time_bin-bert-${model}.csv" --rel_freq --include_spread --restrict_words "../data/utils/dwts.txt"
 #	echo ""
 #done
 
 model="sts_fbmodel"
+#model="sentence-bert-swedish-cased"
 
 python ../analysis/create_df_mb.py "${rootdir}/${yearly}" "${rootdir}/${yrl_exp}/${model}" "${out_dir}/fb_pol-yearly-cluster-${model}.csv" --rel_freq --cluster_mode --restrict_words "../data/utils/dwts.txt"

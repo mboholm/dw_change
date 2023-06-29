@@ -23,10 +23,13 @@
 
 #rootdir="/srv/data/gusbohom/root"
 rootdir="/home/max"
+
+# Flashback
 crp_yly="Corpora/flashback-pol-time/yearly/fb-pt-radical3"
 crp_tbn="Corpora/flashback-pol-time/time_bin/fb-pt-radical3"
 exp_yly="Results/fb_pol-yearly-rad3"
 exp_tbn="Results/fb_pol-time_bin-rad3"
+
 out_dir="../../dw_results"
 
 echo "=================="
