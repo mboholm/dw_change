@@ -21,7 +21,7 @@ out_dir="../../dw_results"
 #	echo ""
 #done
 
-model="sts_fbmodel"
-#model="sentence-bert-swedish-cased"
+#model="sts_fbmodel"
+model="sentence-bert-swedish-cased"
 
 python ../analysis/create_df_mb.py "${rootdir}/${yearly}" "${rootdir}/${yrl_exp}/${model}" "${out_dir}/fb_pol-yearly-cluster-${model}.csv" --rel_freq --cluster_mode --restrict_words "../data/utils/dwts.txt"

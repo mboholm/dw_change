@@ -118,7 +118,7 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
 #             print(df[f"frq_{year}"])
 #             print(df[f"frq_{year}"] / 2)
             #print(np.array(1)/float(1))
-            df[f"fpm_{year}"] = (df[f"frq_{year}"] / (extok_counts[year]["word_tokens"] * 10^6))
+            df[f"fpm_{year}"] = ((df[f"frq_{year}"] / extok_counts[year]["word_tokens"]) * 10**6) # MB: NOT 10^6
             # Frequency per milion
         for ti, tj in transitions:
             df[f"diffpm_{ti}:{tj}"] = df[f"fpm_{tj}"] - df[f"fpm_{ti}"] # D = tj - ti, i.e. for D > 1 there is an increase; for D < 1, decrease
