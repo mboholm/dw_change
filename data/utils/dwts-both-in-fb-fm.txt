@@ -1,0 +1,7 @@
+N1_återvandring
+V1_återvandra
+V1_berika
+V1_kulturberika
+N1_kulturberikare
+N1_globalist
+V1_hjälpa_på_plats
