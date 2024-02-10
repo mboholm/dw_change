@@ -73,7 +73,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Extracts replacements from csv-file.')
     parser.add_argument('csv_file', help='CSV-file')
     parser.add_argument('output_dir', help='Directory for results')
-    parser.add_argument('-x', '--exclude', help='Dog Whistle Terms to exclude (spearated by space e.g. -x "ordningreda sjalvstandig").')
+    parser.add_argument('-x', '--exclude', help='Dog Whistle Terms to exclude (separated by space, e.g. -x "ordningreda sjalvstandig").')
     parser.add_argument('-s', '--separator', help='For separator other than tab')
     args = parser.parse_args()
 
