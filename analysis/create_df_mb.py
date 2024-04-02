@@ -32,7 +32,7 @@ def checker():
     
     print("In DataFrame", ", ".join(list(hits)))
 
-def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_relative_frequencies, include_spread, check, cluster_mode):
+def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_relative_frequencies, include_spread, check, cluster_mode, ignore_rectified):
     
     if min_frq == None: 
         min_frq = 5    
@@ -57,8 +57,9 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
     
     transitions = [(ti, years[i + 1]) for i, ti in enumerate(years[:-1])]
 
-    c_numbers = set(int(n) for n in ["".join([ch for ch in file.replace(".txt", "").split("_")[-1] if ch.isdigit()]) for file in os.listdir(measures / "cosine_change") if "control" in file]) # to find the range of control measures
-    c_span = min(c_numbers), max(c_numbers)
+    if not ignore_rectified:
+        c_numbers = set(int(n) for n in ["".join([ch for ch in file.replace(".txt", "").split("_")[-1] if ch.isdigit()]) for file in os.listdir(measures / "cosine_change") if "control" in file]) # to find the range of control measures
+        c_span = min(c_numbers), max(c_numbers)
 
     # Add Word Frequencies
     print("Adding word frequencies.")
@@ -207,7 +208,7 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
 
 
     else: # i.e. no cluster mode
-        for file in os.listdir(measures / "cosine_change"):
+        for file in sorted(os.listdir(measures / "cosine_change")):
             if file.replace(".txt", "").endswith("genuine"):
                 c_name = file.replace("_genuine.txt", "").replace("_", ":")
                 c_name = "gch_" + c_name # Genuine Cosine Change
@@ -216,67 +217,69 @@ def main(corpus, measures, file_path,  word_restrictor, min_frq, min_docf, do_re
         if check:
             checker()
 
+        if not ignore_rectified:
         # Add Mean and Std. of Change Controls
-        print("Adding Mean, Std. of Change Controls")
-        start, end = c_span
+            print("Adding Mean, Std. of Change Controls")
+            start, end = c_span
 
-        for ti, tj in transitions:
-            control = []
-            for i in range(start, end + 1):
-                s = pd.Series(load_metric(measures / f"cosine_change/{ti}_{tj}_control{i}.txt"))
-                control.append(s)
+            for ti, tj in transitions:
+                control = []
+                for i in range(start, end + 1):
+                    s = pd.Series(load_metric(measures / f"cosine_change/{ti}_{tj}_control{i}.txt"))
+                    control.append(s)
 
-            control = pd.concat(control, axis=1)
-            df[f"mccc_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Change Controle
-            df[f"stdc_{ti}:{tj}"] = control.std(axis=1, ddof=1)
+                control = pd.concat(control, axis=1)
+                df[f"mccc_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Change Controle
+                df[f"stdc_{ti}:{tj}"] = control.std(axis=1, ddof=1)
 
-            # MB. Note: as it should be, the mean is calculated such that missing 
-            #     measures for transitions are not part of the calculations
+                # MB. Note: as it should be, the mean is calculated such that missing 
+                #     measures for transitions are not part of the calculations
 
-        if check:
-            checker()
+            if check:
+                checker()
 
         # Add Rectified Change
-        print("Adding rectified change.")
-        for ti, tj in transitions:
-            df[f"rch_{ti}:{tj}"] = (df[f"gch_{ti}:{tj}"] - df[f"mccc_{ti}:{tj}"]) / (df[f"stdc_{ti}:{tj}"] * np.sqrt(1 + 1/end))
+        if not ignore_rectified:
+            print("Adding rectified change.")
+            for ti, tj in transitions:
+                df[f"rch_{ti}:{tj}"] = (df[f"gch_{ti}:{tj}"] - df[f"mccc_{ti}:{tj}"]) / (df[f"stdc_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
-        if check:
-            checker()
+            if check:
+                checker()
 
-        # Add Genuine Similarity
-        print("Adding genuine similarity.")
-        for file in os.listdir(measures / "cosine_sim"):
-            if file.replace(".txt", "").endswith("genuine"):
-                c_name = file.replace("_genuine.txt", "").replace("_", ":")
-                c_name = "gsim_" + c_name # Genuine Cosine Similarity
-                df[c_name] = pd.Series(load_metric(measures / f"cosine_sim/{file}"))
+            # Add Genuine Similarity
+            print("Adding genuine similarity.")
+            for file in os.listdir(measures / "cosine_sim"):
+                if file.replace(".txt", "").endswith("genuine"):
+                    c_name = file.replace("_genuine.txt", "").replace("_", ":")
+                    c_name = "gsim_" + c_name # Genuine Cosine Similarity
+                    df[c_name] = pd.Series(load_metric(measures / f"cosine_sim/{file}"))
 
-        if check:
-            checker()
+            if check:
+                checker()
 
-        # Add Mean and Std. of Similarity Controls
-        print("Adding Mean and Std. of Similarity Controls.")
-        for ti, tj in transitions:
-            control = []
-            for i in range(start, end + 1):
-                s = pd.Series(load_metric(measures / f"cosine_sim/{ti}_{tj}_control{i}.txt"))
-                control.append(s)
+            # Add Mean and Std. of Similarity Controls
+            print("Adding Mean and Std. of Similarity Controls.")
+            for ti, tj in transitions:
+                control = []
+                for i in range(start, end + 1):
+                    s = pd.Series(load_metric(measures / f"cosine_sim/{ti}_{tj}_control{i}.txt"))
+                    control.append(s)
 
-            control = pd.concat(control, axis=1)
-            df[f"mcsim_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Similarity Controle
-            df[f"stdsim_{ti}:{tj}"] = control.std(axis=1, ddof=1)
+                control = pd.concat(control, axis=1)
+                df[f"mcsim_{ti}:{tj}"] = control.mean(axis=1) # Mean Cosine Similarity Controle
+                df[f"stdsim_{ti}:{tj}"] = control.std(axis=1, ddof=1)
 
-        if check:
-            checker()
+            if check:
+                checker()
 
-        # Add Rectified Similarity
-        print("Adding rectified similarity.")
-        for ti, tj in transitions:
-            df[f"rsim_{ti}:{tj}"] = (df[f"gsim_{ti}:{tj}"] - df[f"mcsim_{ti}:{tj}"]) / (df[f"stdsim_{ti}:{tj}"] * np.sqrt(1 + 1/end))
+            # Add Rectified Similarity
+            print("Adding rectified similarity.")
+            for ti, tj in transitions:
+                df[f"rsim_{ti}:{tj}"] = (df[f"gsim_{ti}:{tj}"] - df[f"mcsim_{ti}:{tj}"]) / (df[f"stdsim_{ti}:{tj}"] * np.sqrt(1 + 1/end))
 
-        if check:
-            checker()
+            if check:
+                checker()
 
     # Save
     print("Saving to CSV-file.")
@@ -302,6 +305,7 @@ if __name__ == '__main__':
     parser.add_argument("--rel_freq", "-p", action="store_true", help="provide to count and add relative frequencies to dataframe. NOTE: assumes a `extok_counts.json` in `corpus_directory`, where to find token counts.")
     parser.add_argument("--include_spread", "-s", action="store_true", help="provide to add spread calculations. NOTE: assumes a `spread` dir in `measure` dir.")
     parser.add_argument("--cluster_mode", action="store_true", help="provide to use cluster mode, 'Jensen-Shannon divergence (jsd)', which has no controls (no rectified change)")
+    parser.add_argument("--ignore_rectified", action="store_true", help="provide to ignore rectified cahnge and controls")
 
     args = parser.parse_args()
 
@@ -320,6 +324,7 @@ if __name__ == '__main__':
         do_relative_frequencies=args.rel_freq, 
         include_spread= args.include_spread, 
         check=args.check,
-        cluster_mode=args.cluster_mode
+        cluster_mode=args.cluster_mode,
+        ignore_rectified=args.ignore_rectified
         )    
 
